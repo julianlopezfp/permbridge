@@ -1,0 +1,17 @@
+[package]
+name = "permbridge-claude-code"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Read-only Claude Code configuration adapter for PermBridge"
+
+[dependencies]
+permbridge-core = { path = "../permbridge-core" }
+serde_json = "1"
+
+[dev-dependencies]
+tempfile = "3.27.0"
+
+[lints]
+workspace = true

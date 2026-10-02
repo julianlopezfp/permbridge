@@ -1,5 +1,10 @@
 [workspace]
-members = ["crates/permbridge-core", "crates/permbridge-cli", "crates/permbridge-codex"]
+members = [
+    "crates/permbridge-core",
+    "crates/permbridge-cli",
+    "crates/permbridge-codex",
+    "crates/permbridge-claude-code",
+]
 resolver = "2"
 
 [workspace.package]

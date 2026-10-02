@@ -29,3 +29,7 @@ guarantee. The Codex adapter uses `NotConfigured` when inspected files contain
 no explicit relevant setting. It does not infer a runtime default. The adapter
 exists as an inspection-only integration; its limits are documented in the
 [Codex compatibility guide](../compatibility/codex.md).
+
+The Claude Code adapter uses the same contract and observation vocabulary
+without a Core change; [ADR 0005](0005-claude-code-adapter-boundary.md)
+records why its tool-specific rules stay outside broad canonical decisions.

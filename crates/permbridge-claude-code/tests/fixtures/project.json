@@ -1,0 +1,1 @@
+{"permissions":{"defaultMode":"acceptEdits","ask":["Bash"],"allow":["WebFetch(domain:example.test)"]},"sandbox":{"enabled":true,"failIfUnavailable":true}}

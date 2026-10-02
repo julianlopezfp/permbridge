@@ -15,7 +15,14 @@ The Codex crate tests synthetic user and project TOML fixtures, project-over-
 user precedence, skipped untrusted projects, missing files, malformed and
 invalid settings, unknown values, permission-profile ambiguity, unsupported
 selectors, source provenance, and unchanged input files. They do not launch
-Codex or validate actual OS sandbox behavior. No Claude Code adapter exists.
+Codex or validate actual OS sandbox behavior.
+
+The Claude Code crate tests synthetic user, shared-project, and local JSON
+fixtures; scalar precedence and merged rule provenance; missing and untrusted
+sources; malformed JSON and invalid selected types; every recognized mode;
+unknown modes; sandbox and hook uncertainty; unsupported selectors; sanitized
+errors; and unchanged input files. Neither adapter launches an agent or tests
+native enforcement.
 
 ## Validation commands
 
@@ -34,7 +41,7 @@ cargo test --workspace --all-targets
 The [GitHub Actions workflow](../.github/workflows/ci.yml) runs the same six
 commands in a clean Ubuntu environment for pushes to `main` and pull requests
 targeting `main`. It provides independent verification of these implemented
-checks. A successful run does not prove Codex runtime behavior, policy
+checks. A successful run does not prove agent runtime behavior, policy
 equivalence, or security enforcement.
 
 `cargo check` is also useful locally without linking. It does not replace a
@@ -47,8 +54,8 @@ including malformed input and precedence across scopes. Before claiming an
 adapter enforces a native boundary, test the agent's behavior on supported
 platforms and versions. Comparator tests must preserve `NotConfigured`,
 `Unsupported`, `Ambiguous`, and missing observations rather than treating them
-as equivalent. The current Codex fixture tests establish parser and mapping
-behavior only; see [compatibility](compatibility/codex.md).
+as equivalent. The current adapter fixture tests establish static parser and
+mapping behavior only; see [compatibility](compatibility/README.md).
 
 Licensing metadata and documentation consistency are reviewed by the
 maintainer when the repository license changes. Rust tests validate the code;

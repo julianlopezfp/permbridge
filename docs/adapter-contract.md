@@ -1,6 +1,6 @@
 # Agent adapter contract
 
-**Status: experimental contract with one limited Codex implementation.**
+**Status: experimental contract with limited Codex and Claude Code implementations.**
 
 `AgentAdapter` exposes two operations: `id()` returns a stable integration
 identifier, and `inspect(&CanonicalPolicy)` returns an `EffectivePosture` or
@@ -33,10 +33,13 @@ evidence, not a universal ranking or proof that all actions are contained.
 Real adapters will need tests against native behavior and documented evidence
 limits before PermBridge claims broad support for an agent. The Core test
 double remains separate from the experimental, read-only
-[Codex adapter](compatibility/codex.md). Its `inspect_report` method adds
-source provenance without changing the provider-agnostic trait. The only Core
-contract change is `NotConfigured`, needed to distinguish a checked but absent
-setting from a capability that was never inspected.
+[Codex adapter](compatibility/codex.md). Both adapters have an `inspect_report`
+method that adds source provenance without changing the provider-agnostic
+trait. `NotConfigured` distinguishes a checked but absent setting from a
+capability that was never inspected. The
+[Claude Code adapter](compatibility/claude-code.md) uses the same vocabulary
+without a Core change: its tool-specific rules do not establish broad
+canonical decisions from static files.
 
 The adapter contract describes agent capabilities, not rights to use
 PermBridge. A future third-party integration must respect the project's

@@ -20,7 +20,7 @@ desired policy -> canonical model -> agent adapter -> effective posture
 | Canonical model | Represent desired decisions for filesystem, network, and execution capabilities | Implemented in memory; experimental API |
 | Policy loader and validator | Parse versioned YAML and reject invalid policies | Planned |
 | Adapter contract | Identify an agent and request observations relevant to a desired policy | Implemented trait; experimental API |
-| Agent adapters and configuration importers | Read native settings and report supported, unsupported, or ambiguous mappings | Experimental Codex file adapter only |
+| Agent adapters and configuration importers | Read native settings and report supported, unsupported, or ambiguous mappings | Experimental Codex and Claude Code file adapters |
 | Comparator | Relate each observed capability to the desired rule | Planned; outcome vocabulary exists only |
 | Diagnostics and report layer | Explain evidence, gaps, and remediation | Planned |
 | CLI | Present a unified developer workflow | Smoke program only |
@@ -38,19 +38,24 @@ belong outside the domain model; see [ADR 0002](decisions/0002-agent-adapters.md
 normalization. Its paths and project trust are supplied by the caller. See
 [Codex compatibility](compatibility/codex.md).
 
+`permbridge-claude-code` similarly separates JSON file reading and
+normalization, but reports broad capabilities as ambiguous because its native
+rules are tool-specific. See [Claude Code compatibility](compatibility/claude-code.md).
+
 ## Data and failure boundaries
 
 An adapter receives a `CanonicalPolicy` and returns an `EffectivePosture` or
 an explicit adapter-specific error. Each returned capability is known with a
 decision and enforcement strength, not configured, unsupported, or ambiguous.
 A missing capability means it was not inspected. These states must remain
-distinct when comparison and diagnostics are implemented. The adapter does not return an
-`Equivalent` result; the future comparator owns that judgment.
+distinct when comparison and diagnostics are implemented. The adapter does
+not return an `Equivalent` result; the future comparator owns that judgment.
 
-The Codex adapter reports selected file settings and their source alongside
-the canonical posture. Its `Known` observations use `Declared`, never an
-unverified runtime enforcement strength. Other Codex configuration layers and
-session overrides remain outside this first integration.
+Both adapters report selected file settings and their source alongside the
+canonical posture. Codex `Known` observations use `Declared`, never an
+unverified runtime enforcement strength. Claude Code reports no `Known`
+decisions from static settings. Managed configuration and session overrides
+remain outside these integrations.
 
 The policy model stores domain and command selectors but does not validate or
 match them. No default or scope precedence is applied to an agent today.

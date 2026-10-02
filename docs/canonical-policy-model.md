@@ -32,8 +32,14 @@ OS sandbox restriction. See [adapter contract](adapter-contract.md) and
 
 `NotConfigured` now records that an adapter inspected its supported sources
 but found no explicit setting. It does not imply the canonical policy's `Ask`
-default or any native default. The first use is the
-[Codex file adapter](compatibility/codex.md).
+default or any native default. Both the [Codex](compatibility/codex.md) and
+[Claude Code](compatibility/claude-code.md) file adapters use it.
+
+Claude Code's tool-specific rules show a current limit of the broad canonical
+capabilities: a rule for one tool does not describe every way to read, write,
+execute, or access the network. The second adapter therefore reports
+`Ambiguous` rather than manufacturing a `Known` broad decision. See
+[ADR 0005](decisions/0005-claude-code-adapter-boundary.md).
 
 The illustrative [global](../policies/examples/global.yaml) and
 [project](../policies/examples/project.yaml) YAML files show a possible

@@ -38,6 +38,12 @@ files. `toml` parses configuration syntax, and the test-only `tempfile` crate
 keeps isolated fixtures easy to clean up. Run `cargo test -p permbridge-codex`
 for its focused suite. See [Codex compatibility](compatibility/codex.md).
 
+`permbridge-claude-code` also takes injected configuration roots and trust.
+It uses `serde_json` to parse selected Claude Code JSON settings and reuses
+`tempfile` for isolated tests. It does not inspect real user settings during
+tests or run Claude Code. Run `cargo test -p permbridge-claude-code` for its
+focused suite. See [Claude Code compatibility](compatibility/claude-code.md).
+
 The [contribution guide](../CONTRIBUTING.md) defines language and review
 expectations. [Testing](testing.md) explains what the current checks prove.
 
