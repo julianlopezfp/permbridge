@@ -86,5 +86,6 @@ sandbox state. These can alter actual behavior. Hooks can change tool-call
 decisions, and managed settings can override local declarations. Anthropic's
 [security](https://code.claude.com/docs/en/security) and
 [hooks](https://code.claude.com/docs/en/hooks) documentation describes these
-boundaries. No comparison, enforcement, remediation, or security guarantee
-follows from static inspection.
+boundaries. The [Core comparator](../comparison.md) can consume this posture,
+but its broad ambiguous observations yield no passing outcome. No
+enforcement, remediation, or security guarantee follows from static inspection.

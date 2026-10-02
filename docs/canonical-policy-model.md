@@ -41,6 +41,12 @@ execute, or access the network. The second adapter therefore reports
 `Ambiguous` rather than manufacturing a `Known` broad decision. See
 [ADR 0005](decisions/0005-claude-code-adapter-boundary.md).
 
+The [in-memory comparator](comparison.md) uses the canonical decision order
+only for defensibly mapped observations. It retains decision relationships
+separately from final evidence-aware outcomes. The top-level fallback
+`default_decision` does not generate additional capabilities; the five
+baseline fields and explicit selector rules define what is compared.
+
 The illustrative [global](../policies/examples/global.yaml) and
 [project](../policies/examples/project.yaml) YAML files show a possible
 serialization. They are not parsed, validated, or executable. The `targets`

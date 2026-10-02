@@ -5,8 +5,8 @@ use permbridge_claude_code::{
     ConfigSource, SettingState, SourceStatus,
 };
 use permbridge_core::{
-    AgentAdapter, CanonicalPolicy, Capability, CapabilityObservation, Decision, ExecutionRule,
-    NetworkRule, PolicyScope,
+    compare, AgentAdapter, CanonicalPolicy, Capability, CapabilityObservation, ComparisonOutcome,
+    ComparisonReason, Decision, ExecutionRule, NetworkRule, PolicyScope,
 };
 use tempfile::TempDir;
 
@@ -335,4 +335,32 @@ fn omitted_workspace_is_reported() {
         .capabilities
         .values()
         .all(|value| *value == CapabilityObservation::Ambiguous));
+}
+
+#[test]
+fn claude_posture_feeds_comparator_without_inventing_decisions() {
+    let root = tempfile::tempdir().unwrap();
+    write(
+        &root,
+        ConfigSource::User,
+        include_str!("fixtures/user.json"),
+    );
+    write(
+        &root,
+        ConfigSource::Project,
+        include_str!("fixtures/project.json"),
+    );
+    write(
+        &root,
+        ConfigSource::Local,
+        include_str!("fixtures/local.json"),
+    );
+    let desired = desired();
+    let posture = adapter(&root, true).inspect(&desired).unwrap();
+    let report = compare(&desired, &posture).unwrap();
+    let write = &report.results[&Capability::FilesystemWrite];
+    assert_eq!(write.observed, Some(CapabilityObservation::Ambiguous));
+    assert_eq!(write.decision_relation, None);
+    assert_eq!(write.outcome, ComparisonOutcome::Ambiguous);
+    assert_eq!(write.reason, ComparisonReason::AmbiguousObservation);
 }

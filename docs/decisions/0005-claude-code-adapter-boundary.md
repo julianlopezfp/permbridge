@@ -31,6 +31,7 @@ private trust store or execute native tooling to discover runtime behavior.
 The second adapter exercises the provider-agnostic boundary without adding
 Claude-specific types to Core. Its evidence is useful for later diagnostics,
 but the current broad model cannot express tool-specific permission behavior
-precisely. A future comparator or narrower capability model requires explicit
-selector semantics and behavior evidence before making equivalence claims.
+precisely. The current comparator preserves uncertainty; operational
+comparison or a narrower capability model requires explicit selector semantics
+and behavior evidence before making stronger equivalence claims.
 See the [compatibility guide](../compatibility/claude-code.md).

@@ -9,3 +9,4 @@ known.
 - [ADR 0003: BSL 1.1 licensing and closed contributions](0003-bsl-licensing.md)
 - [ADR 0004: Conservative Codex file inspection](0004-codex-file-inspection.md)
 - [ADR 0005: Keep Claude Code tool rules outside broad canonical decisions](0005-claude-code-adapter-boundary.md)
+- [ADR 0006: Compare decisions only with capability-specific mechanism evidence](0006-evidence-aware-comparison.md)

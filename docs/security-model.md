@@ -1,7 +1,8 @@
 # Security model
 
 **Current protection: none.** PermBridge does not intercept agent actions,
-enforce permissions, import live configuration, or compare effective posture.
+enforce permissions or import live configuration. Core compares in-memory
+desired policy with supplied observations, but cannot verify live posture.
 The Codex and Claude Code adapters read selected local files, but cannot
 verify a running session's sandbox, approvals, or managed constraints.
 
@@ -12,8 +13,9 @@ adapter's observations of a particular agent. An adapter may see only part of
 the native configuration or may be unable to prove how a setting behaves at
 runtime. `NotConfigured`, `Unsupported`, `Ambiguous`, and missing observations
 must never be converted into a passing comparison. A `Known` observation
-records the adapter's interpretation, but still needs evidence and comparison before any
-equivalence claim.
+records the adapter's interpretation. Core requires more than `Declared`
+evidence for an ordered outcome, but an adapter-reported mechanism is not
+independent runtime verification. See [posture comparison](comparison.md).
 
 `Decision` describes permission intent. `EnforcementStrength` separately
 describes the mechanism an adapter observed for one capability. A declared

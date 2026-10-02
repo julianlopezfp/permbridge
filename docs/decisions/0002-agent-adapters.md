@@ -17,7 +17,8 @@ Core defines a small `AgentAdapter` contract and shared observation types.
 Concrete agents will implement that boundary outside the domain model.
 Adapters identify themselves, inspect relevant native configuration, and
 report known, not configured, unsupported, or ambiguous observations. The
-future comparator, not the adapter, decides policy equivalence.
+Core comparator, not the adapter, decides policy equivalence under stated
+evidence limits.
 
 ## Consequences
 

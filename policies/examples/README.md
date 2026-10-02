@@ -2,7 +2,8 @@
 
 These YAML files illustrate a possible serialization of the in-memory
 canonical policy model. There is no implemented schema, parser, validator,
-comparator, or enforcement. The files have no effect on PermBridge or on any
+or enforcement. The in-memory comparator does not load these files. They have
+no effect on PermBridge or on any
 coding agent. Field names and semantics may change before the first
 functional policy release.
 

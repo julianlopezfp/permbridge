@@ -5,8 +5,9 @@ use permbridge_codex::{
     SettingState, SourceStatus,
 };
 use permbridge_core::{
-    AgentAdapter, CanonicalPolicy, Capability, CapabilityObservation, Decision,
-    EnforcementStrength, ExecutionRule, NetworkRule, PolicyScope,
+    compare, AgentAdapter, CanonicalPolicy, Capability, CapabilityObservation, ComparisonOutcome,
+    ComparisonReason, Decision, DecisionRelation, EnforcementStrength, ExecutionRule, NetworkRule,
+    PolicyScope,
 };
 use tempfile::TempDir;
 
@@ -374,4 +375,25 @@ fn omitting_a_project_root_is_reported() {
     let paths = CodexConfigPaths::new(root.path().to_path_buf(), None, false);
     let report = CodexAdapter::new(paths).inspect_report(&desired()).unwrap();
     assert_eq!(report.project_source, SourceStatus::NotProvided);
+}
+
+#[test]
+fn declared_codex_posture_feeds_comparator_without_a_passing_claim() {
+    let root = tempfile::tempdir().unwrap();
+    write_user(&root, include_str!("fixtures/user.toml"));
+    write_project(&root, include_str!("fixtures/project.toml"));
+    let desired = desired();
+    let posture = adapter(&root, true).inspect(&desired).unwrap();
+    let report = compare(&desired, &posture).unwrap();
+    let write = &report.results[&Capability::FilesystemWrite];
+    assert_eq!(
+        write.decision_relation,
+        Some(DecisionRelation::LessRestrictive)
+    );
+    assert_eq!(write.outcome, ComparisonOutcome::Ambiguous);
+    assert_eq!(write.reason, ComparisonReason::DeclaredOnly);
+    assert_eq!(
+        report.results[&Capability::NetworkDefault].outcome,
+        ComparisonOutcome::Ambiguous
+    );
 }

@@ -5,8 +5,8 @@
 `AgentAdapter` exposes two operations: `id()` returns a stable integration
 identifier, and `inspect(&CanonicalPolicy)` returns an `EffectivePosture` or
 an adapter-specific error. Passing the desired policy lets an adapter focus on
-relevant capabilities and mark rules it cannot translate. It must not decide
-the final comparison outcome.
+relevant capabilities and mark rules it cannot translate. The separate Core
+[comparator](comparison.md) decides the final outcome.
 
 An `EffectivePosture` maps canonical `Capability` keys to observations:
 
@@ -16,7 +16,7 @@ An `EffectivePosture` maps canonical `Capability` keys to observations:
 | `NotConfigured` | Inspected sources contain no explicit setting for this capability; no default is inferred. |
 | `Unsupported` | The agent cannot express or expose the requested capability through this adapter. |
 | `Ambiguous` | Available native settings cannot be mapped with confidence. |
-| Missing key | The capability was not inspected; a future comparator must not assume compliance. |
+| Missing key | The capability was not inspected; the comparator reports an ambiguous outcome with a missing-observation reason. |
 
 An inspection error means the adapter could not produce a reliable posture at
 all. Its associated Rust error type keeps failures explicit without forcing a

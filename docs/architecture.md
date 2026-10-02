@@ -21,7 +21,7 @@ desired policy -> canonical model -> agent adapter -> effective posture
 | Policy loader and validator | Parse versioned YAML and reject invalid policies | Planned |
 | Adapter contract | Identify an agent and request observations relevant to a desired policy | Implemented trait; experimental API |
 | Agent adapters and configuration importers | Read native settings and report supported, unsupported, or ambiguous mappings | Experimental Codex and Claude Code file adapters |
-| Comparator | Relate each observed capability to the desired rule | Planned; outcome vocabulary exists only |
+| Comparator | Relate each observed capability to the desired rule | Implemented in memory; experimental API |
 | Diagnostics and report layer | Explain evidence, gaps, and remediation | Planned |
 | CLI | Present a unified developer workflow | Smoke program only |
 | VS Code extension | Localized UI over Core results | Planned; placeholder only |
@@ -47,9 +47,10 @@ rules are tool-specific. See [Claude Code compatibility](compatibility/claude-co
 An adapter receives a `CanonicalPolicy` and returns an `EffectivePosture` or
 an explicit adapter-specific error. Each returned capability is known with a
 decision and enforcement strength, not configured, unsupported, or ambiguous.
-A missing capability means it was not inspected. These states must remain
-distinct when comparison and diagnostics are implemented. The adapter does
-not return an `Equivalent` result; the future comparator owns that judgment.
+A missing capability means it was not inspected. The comparator keeps these
+states distinct and does not turn a declaration into a passing result. An
+adapter never returns `Equivalent`; Core owns that judgment. See
+[posture comparison](comparison.md).
 
 Both adapters report selected file settings and their source alongside the
 canonical posture. Codex `Known` observations use `Declared`, never an

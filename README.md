@@ -13,9 +13,9 @@ make those differences visible and actionable.
 > **Current status:** Core has an experimental in-memory policy model and
 > adapter contract. Read-only Codex and Claude Code adapters inspect selected
 > local configuration files, but do not prove runtime enforcement. PermBridge
-> does not load policy YAML, compare postures, produce diagnostics, intercept
-> actions, mediate approvals, or integrate with VS Code. It provides no
-> security protection today.
+> can compare an in-memory desired policy with one adapter posture, but does
+> not load policy YAML, produce user diagnostics, intercept actions, mediate
+> approvals, or integrate with VS Code. It provides no security protection today.
 
 ![PermBridge concept artwork](images/permbridge-github-social-preview.jpg)
 
@@ -33,8 +33,8 @@ Desired policy -> canonical model -> agent adapter -> effective posture
 
 The canonical model expresses desired permissions independently of any
 agent. Adapters interpret supported native configurations and report their
-limitations. A comparator will identify equivalent, more restrictive,
-less restrictive, unsupported, and ambiguous mappings. Diagnostics and reports
+limitations. Core compares in-memory desired rules with adapter observations
+capability by capability. Future diagnostics and reports
 will explain gaps and possible remediation. The CLI is the first planned user
 experience; the VS Code extension comes later.
 
@@ -57,8 +57,9 @@ not a universal sandbox or a general AI-agent firewall.
 - An experimental read-only Claude Code adapter for selected user and project
   JSON settings. It reports provenance and uncertainty for broad capabilities;
   see [Claude Code compatibility](docs/compatibility/claude-code.md).
-- Comparison outcome vocabulary and focused unit tests for the implemented
-  invariants. No comparator calculates outcomes yet.
+- An experimental, provider-agnostic in-memory comparator that preserves
+  decision relationships, evidence limits, and missing observations. See
+  [posture comparison](docs/comparison.md).
 - Rust CI, illustrative YAML examples, and a placeholder for the future
   TypeScript VS Code extension. The YAML is not parsed or validated.
 
@@ -119,7 +120,7 @@ the project policy to weaken a global restriction. Canonical decisions are
 adapters must not assume every native permission model has identical states.
 
 The next milestones are a versioned YAML schema and loader, behavior evidence
-for the adapters, posture comparison, and useful CLI diagnostics. A localized
+for the adapters, and useful CLI diagnostics. A localized
 VS Code experience is later work. See the
 [roadmap](docs/roadmap.md) for explicit boundaries.
 
@@ -127,7 +128,7 @@ VS Code experience is later work. See the
 
 | Path | Purpose |
 | --- | --- |
-| `crates/permbridge-core/` | Canonical Rust model and adapter contract; future comparison logic |
+| `crates/permbridge-core/` | Canonical Rust model, adapter contract, and in-memory comparator |
 | `crates/permbridge-cli/` | Rust CLI smoke program; future user CLI |
 | `crates/permbridge-codex/` | Experimental read-only Codex file adapter |
 | `crates/permbridge-claude-code/` | Experimental read-only Claude Code file adapter |
@@ -140,7 +141,8 @@ VS Code experience is later work. See the
 
 Read the [architecture](docs/architecture.md),
 [canonical policy model](docs/canonical-policy-model.md), and
-[adapter contract](docs/adapter-contract.md) for the design and its limits.
+[adapter contract](docs/adapter-contract.md) and
+[posture comparison](docs/comparison.md) for the design and its limits.
 The [documentation index](docs/README.md) lists the other engineering guides. See
 [contributing](CONTRIBUTING.md) and [security reporting](SECURITY.md) before
 participating.

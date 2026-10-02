@@ -29,6 +29,9 @@ and `comparison`. The public exports in `lib.rs` are an experimental domain
 surface, not a stable integration API. Keep Core independent of provider SDKs,
 UI strings, and file formats. Changes to the model should update Rustdoc,
 focused tests, and the relevant technical document together.
+The provider-agnostic `compare` function consumes an in-memory policy and
+posture. It performs no file access. See [posture comparison](comparison.md)
+for its evidence threshold and handling of incomplete observations.
 
 `permbridge-codex` is a separate crate with a read-only file loader and a
 conservative mapping step. Its caller must provide the Codex home, optional

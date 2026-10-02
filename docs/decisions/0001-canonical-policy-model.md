@@ -15,7 +15,7 @@ tools. A translation can also conceal an unsupported or weaker native rule.
 
 Represent desired permissions in an agent-agnostic in-memory model. Each
 adapter maps relevant native behavior into explicit observations. A separate
-comparator will assess those observations against the desired model. An
+comparator assesses those observations against the desired model. An
 adapter may report unsupported or ambiguous mappings instead of inventing an
 equivalent native setting.
 

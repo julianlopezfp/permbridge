@@ -2,11 +2,13 @@
 
 ## Current tests
 
-Core unit tests check that an unspecified decision is `Ask`, that combining
+Core tests check that an unspecified decision is `Ask`, that combining
 comparable decisions cannot weaken a global restriction, that a new policy
-starts with `Ask` across dimensions, that unsupported and ambiguous comparison
-outcomes do not count as compliance, and that a test adapter preserves
+starts with `Ask` across dimensions, and that a test adapter preserves
 enforcement and mapping limits while keeping inspection failures distinct.
+Comparator integration tests cover all ordered decisions, declaration-only
+evidence, uncertain and missing observations, mixed and deterministically
+ordered results, unrequested observations, and duplicate desired selectors.
 The test adapter is not a product integration.
 
 The crate does not serialize or deserialize policies, so there are no
@@ -23,6 +25,9 @@ sources; malformed JSON and invalid selected types; every recognized mode;
 unknown modes; sandbox and hook uncertainty; unsupported selectors; sanitized
 errors; and unchanged input files. Neither adapter launches an agent or tests
 native enforcement.
+Each adapter's synthetic fixture tests also feed its produced posture to the
+Core comparator. Codex's declared allowance remains ambiguous as a final
+outcome; Claude Code's broad uncertain observation stays ambiguous.
 
 ## Validation commands
 
@@ -56,6 +61,8 @@ platforms and versions. Comparator tests must preserve `NotConfigured`,
 `Unsupported`, `Ambiguous`, and missing observations rather than treating them
 as equivalent. The current adapter fixture tests establish static parser and
 mapping behavior only; see [compatibility](compatibility/README.md).
+The comparator tests do not validate native runtime mechanisms or supply a
+policy loader; see [comparison](comparison.md).
 
 Licensing metadata and documentation consistency are reviewed by the
 maintainer when the repository license changes. Rust tests validate the code;

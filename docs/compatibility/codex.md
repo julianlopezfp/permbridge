@@ -81,5 +81,7 @@ config, selected profile files, nested project config, command-line overrides,
 session permission changes, hooks, rules, app or MCP permissions, or live
 sandbox state. These can change what the agent actually does. Network domain
 rules require an active proxy and cannot be inferred from a Boolean toggle.
-Codex Cloud uses different controls. No canonical comparison, enforcement,
-mediation, remediation, or security guarantee follows from this inspection.
+Codex Cloud uses different controls. The [Core comparator](../comparison.md)
+can consume this posture, but declared-only decisions cannot yield a passing
+outcome. No enforcement, mediation, remediation, or security guarantee follows
+from this inspection.
