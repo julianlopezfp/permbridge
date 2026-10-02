@@ -2,11 +2,12 @@
 
 ## Current status
 
-PermBridge is a project skeleton. It does not import agent configurations,
-compare effective posture, intercept actions, mediate approval, or enforce
-decisions. Do not depend on it to protect a repository or system. Future
-diagnostics will be limited by each adapter's evidence and the underlying
-agent's controls.
+PermBridge has an experimental in-memory policy model and adapter contract.
+It does not import real agent configurations, compare effective posture,
+intercept actions, mediate approval, or enforce decisions. Do not depend on it
+to protect a repository or system. Future diagnostics will be limited by each
+adapter's evidence and the underlying agent's controls. See the
+[security model](docs/security-model.md).
 
 ## Reporting a vulnerability
 

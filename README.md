@@ -12,11 +12,16 @@ approval mechanisms, and security guarantees. Switching agents can therefore
 change a developer's effective security posture. PermBridge is designed to
 make those differences visible and actionable.
 
-> **Current status:** This repository is still a Rust workspace skeleton. It
-> does not load YAML policies, import any agent configuration, compare security
-> postures, produce diagnostics, intercept actions, mediate approvals, or
-> integrate with VS Code. No agent adapter exists. It provides no security
-> protection today.
+> **Current status:** Core now has an experimental in-memory policy model and
+> agent adapter contract. It does not load YAML, import any real agent
+> configuration, compare postures, produce diagnostics, intercept actions,
+> mediate approvals, or integrate with VS Code. No real adapter exists, and
+> PermBridge provides no security protection today.
+
+![PermBridge concept artwork](images/permbridge-github-social-preview.jpg)
+
+The image is concept artwork for the planned product, not a claim that its
+depicted capabilities are implemented.
 
 ## Product direction
 
@@ -27,8 +32,8 @@ Desired policy -> canonical model -> agent adapter -> effective posture
                -> comparison -> diagnostics -> report
 ```
 
-The canonical model will express desired permissions independently of any
-agent. Adapters will interpret supported native configurations and report
+The canonical model expresses desired permissions independently of any
+agent. Future adapters will interpret supported native configurations and report
 their limitations. A comparator will identify equivalent, more restrictive,
 less restrictive, unsupported, and ambiguous mappings. Diagnostics and reports
 will explain gaps and possible remediation. The CLI is the first planned user
@@ -43,11 +48,14 @@ not a universal sandbox or a general AI-agent firewall.
 
 - A Rust workspace containing `permbridge-core` and a `permbridge-cli` smoke
   program.
-- A UI-independent `Decision` enum with `Allow`, `Ask`, and `Deny` values,
-  defaulting to `Ask` and ordered by restriction.
-- Unit tests for that enum, Rust CI, and documentation of the intended model.
-- Draft YAML examples and a placeholder for the future TypeScript VS Code
-  extension. The examples are not parsed or validated.
+- An experimental, UI-independent in-memory policy model for filesystem,
+  network, and execution decisions, plus policy scope and enforcement strength.
+- An `AgentAdapter` trait and observation types that can preserve unsupported
+  and ambiguous mappings. No concrete agent adapter implements the trait.
+- Comparison outcome vocabulary and focused unit tests for the implemented
+  invariants. No comparator calculates outcomes yet.
+- Rust CI, illustrative YAML examples, and a placeholder for the future
+  TypeScript VS Code extension. The YAML is not parsed or validated.
 
 The CLI only prints a scaffold notice. No comparison result is calculated.
 
@@ -71,31 +79,34 @@ installation or configuration procedure for end users yet. The YAML under
 
 ## Policy and roadmap
 
-The planned policy model has a global user policy and an optional project
-policy. A project policy may add restrictions but must not weaken a global
-restriction. Canonical decisions may be `ALLOW`, `ASK`, and `DENY`, with
-`DENY > ASK > ALLOW`; unknown desired actions default to `ASK`. Agent adapters
-must not assume that every native permission model has identical states.
+The model represents managed, global, project, and session policy scopes.
+Global and optional project policies are intended to combine without allowing
+the project policy to weaken a global restriction. Canonical decisions are
+`ALLOW`, `ASK`, and `DENY`, with `DENY > ASK > ALLOW`; new policies default to
+`ASK`. Merging scopes and evaluating actions are not implemented. Agent
+adapters must not assume every native permission model has identical states.
 
-The next milestones are a versioned YAML schema and loader, a canonical
-capability model, one tested agent adapter, posture comparison, and useful CLI
-diagnostics. Additional adapters and a localized VS Code experience are later
-work. None of these milestones is implemented in this commit.
+The next milestones are a versioned YAML schema and loader, one tested agent
+adapter, posture comparison, and useful CLI diagnostics. Additional adapters
+and a localized VS Code experience are later work. See the
+[roadmap](docs/roadmap.md) for explicit boundaries.
 
 ## Repository map
 
 | Path | Purpose |
 | --- | --- |
-| `crates/permbridge-core/` | Canonical Rust types; future comparison logic |
+| `crates/permbridge-core/` | Canonical Rust model and adapter contract; future comparison logic |
 | `crates/permbridge-cli/` | Rust CLI smoke program; future user CLI |
-| `adapters/` | Planned agent-specific adapters; no integrations yet |
+| `adapters/` | Home for future agent-specific implementations; none yet |
 | `extensions/vscode/` | Future TypeScript extension placeholder |
 | `policies/examples/` | Draft, nonfunctional YAML policy examples |
 | `docs/` | Canonical English technical documentation |
 | `tests/` | Reserved for future cross-crate integration tests |
 | `.github/workflows/` | Rust CI |
 
-Read the [architecture](docs/architecture.md) and
-[policy concepts](docs/policy-model.md) for the design and its limits. See
+Read the [architecture](docs/architecture.md),
+[canonical policy model](docs/canonical-policy-model.md), and
+[adapter contract](docs/adapter-contract.md) for the design and its limits.
+The [documentation index](docs/README.md) lists the other engineering guides. See
 [contributing](CONTRIBUTING.md) and [security reporting](SECURITY.md) before
 participating. This project is licensed under the [MIT License](LICENSE).

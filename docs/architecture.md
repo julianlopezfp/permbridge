@@ -1,67 +1,54 @@
-# Architecture and scope
+# Architecture
 
-## Purpose
-
-PermBridge is intended to compare a developer's desired permissions with the
-effective security posture of AI coding agents. It addresses incompatible
-permission models, configuration formats, approval behavior, and capabilities
-across tools. It is not designed as a universal sandbox or generic agent
-firewall.
-
-The conceptual flow is:
+PermBridge compares desired, agent-agnostic permissions with an AI coding
+agent's observed effective posture. It separates desired policy, native-agent
+inspection, and comparison so an adapter cannot silently claim that a native
+setting provides a security guarantee it has not established.
 
 ```text
-Desired policy -> canonical model -> agent adapter -> effective posture
-               -> comparison -> diagnostics -> report
+desired policy -> canonical model -> agent adapter -> effective posture
+                                       |                  |
+                                       +-- evidence limits-+
+                                                          v
+                                          comparator -> diagnostics -> report
 ```
 
-The Core remains UI- and language-agnostic. Agent integrations must describe
-what they can observe and where their mapping is incomplete. A less restrictive
-or unknown effective posture must never be presented as equivalent without
-evidence.
+## Component boundaries
 
-## Planned responsibilities
-
-| Component | Responsibility | Status |
+| Component | Responsibility | Current state |
 | --- | --- | --- |
-| Canonical Policy Model | Represent desired capabilities and decisions without agent-specific syntax | Decision enum only |
-| Policy Loader & Validator | Parse a versioned YAML policy and reject invalid or unsafe input | Planned |
-| Agent Adapter Interface | Define a common contract for agent-specific observation and capability limits | Planned |
-| Configuration Importer | Read native agent configuration through an adapter | Planned |
-| Policy Comparator | Compare desired permissions with observed effective posture | Planned |
-| Diagnostics Engine | Describe gaps, ambiguity, unsupported rules, and remediation options | Planned |
-| Audit/Report Layer | Present evidence and findings without overstating guarantees | Planned |
-| CLI | Provide a unified developer experience | Startup smoke program only |
+| Canonical model | Represent desired decisions for filesystem, network, and execution capabilities | Implemented in memory; experimental API |
+| Policy loader and validator | Parse versioned YAML and reject invalid policies | Planned |
+| Adapter contract | Identify an agent and request observations relevant to a desired policy | Implemented trait; experimental API |
+| Agent adapters and configuration importers | Read native settings and report supported, unsupported, or ambiguous mappings | Not supported; no concrete adapters |
+| Comparator | Relate each observed capability to the desired rule | Planned; outcome vocabulary exists only |
+| Diagnostics and report layer | Explain evidence, gaps, and remediation | Planned |
+| CLI | Present a unified developer workflow | Smoke program only |
+| VS Code extension | Localized UI over Core results | Planned; placeholder only |
 
-The future TypeScript VS Code extension will be a UI client. It must not own
-the canonical policy semantics or silently invent an agent capability.
+Here, **implemented** means code exists, **experimental** means its API or
+semantics may change, **planned** means there is no behavior yet, and **not
+supported** means users cannot rely on an integration today.
 
-## Trust and security boundaries
+`permbridge-core` contains the in-memory model and contract. It has no UI,
+provider SDK, or YAML dependency. The future CLI and extension must consume
+Core results rather than implement their own policy semantics. Real adapters
+belong outside the domain model; see [ADR 0002](decisions/0002-agent-adapters.md).
 
-An adapter's evidence is limited by the underlying agent's native controls
-and observable configuration. A supported mapping still requires tests against
-that agent's actual behavior. If a rule is unsupported or ambiguous, the
-comparison should say so. Enforcement or mediation may be added only where a
-specific integration can reliably implement it. PermBridge itself is not a
-general-purpose action interceptor.
+## Data and failure boundaries
 
-The planned policy sources are a global user policy and an optional project
-policy. Project policy may increase restrictions, but must not weaken global
-restrictions. Unknown desired actions default to ASK. Native agents may not
-have exact ALLOW, ASK, and DENY equivalents; adapters will need to preserve
-that distinction in their results. See [policy concepts](policy-model.md).
+An adapter receives a `CanonicalPolicy` and returns an `EffectivePosture` or
+an explicit adapter-specific error. Each returned capability is known with a
+decision and enforcement strength, unsupported, or ambiguous. A missing
+capability means it was not inspected. These states must remain distinct when
+comparison and diagnostics are implemented. The adapter does not return an
+`Equivalent` result; the future comparator owns that judgment.
 
-## Implemented scope
+The policy model stores domain and command selectors but does not validate or
+match them. No default or scope precedence is applied to an agent today.
+`Decision::most_restrictive` only captures the ordering needed for a future
+global/project merge. Managed and session scope precedence remains open.
 
-This migration commit retains the small executable skeleton: a Rust workspace,
-a canonical `Decision` enum with ordering and tests, and a CLI that prints a
-scaffold notice. It adds no policy parser, adapter, importer, comparator,
-diagnostics, report, interception, approval flow, or VS Code implementation.
-Draft YAML examples are not consumed by the code. The repository provides no
-security protection in this state.
-
-## Internationalization
-
-Core values are language-neutral. Future user interfaces should localize
-English and Spanish messages outside Core. The current CLI prints an English
-development notice only and is not an operational interface.
+For security limits, see [security model](security-model.md). For why the
+canonical model is preferred over pairwise translations, see
+[ADR 0001](decisions/0001-canonical-policy-model.md).

@@ -1,7 +1,8 @@
 # Contributing to PermBridge
 
-PermBridge is an early skeleton for comparing desired permissions with coding
-agents' effective security posture. Keep changes focused and distinguish
+PermBridge is building a canonical policy model for comparing desired
+permissions with coding agents' effective security posture. Keep changes
+focused and distinguish
 planned capabilities from tested behavior. Do not claim support for an agent
 without an implemented adapter and behavior tests.
 
@@ -23,6 +24,7 @@ not require Node.js. Before opening a pull request, run:
 cargo fmt --all -- --check
 cargo clippy --workspace --all-targets -- -D warnings
 cargo check --workspace --all-targets
+RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
 cargo build --workspace --all-targets
 cargo test --workspace --all-targets
 ```

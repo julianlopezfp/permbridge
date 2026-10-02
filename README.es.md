@@ -14,11 +14,16 @@ mecanismos de aprobación y garantías de seguridad diferentes. Cambiar de
 agente puede alterar la postura de seguridad efectiva sin que resulte evidente.
 PermBridge pretende hacer visibles esas diferencias y explicar cómo abordarlas.
 
-> **Estado actual:** Este repositorio sigue siendo un esqueleto de Rust. No
-> carga políticas YAML, importa configuraciones de agentes, compara posturas,
-> genera diagnósticos, intercepta acciones, media aprobaciones ni se integra
-> con VS Code. No hay adaptadores implementados. Actualmente no proporciona
-> protección de seguridad.
+> **Estado actual:** Core dispone de un modelo de políticas en memoria y un
+> contrato de adaptadores, ambos experimentales. No carga YAML, importa la
+> configuración de ningún agente real, compara posturas, genera diagnósticos,
+> intercepta acciones, media aprobaciones ni se integra con VS Code. No hay
+> adaptadores reales y actualmente no proporciona protección de seguridad.
+
+![Ilustración conceptual de PermBridge](images/permbridge-github-social-preview.jpg)
+
+La imagen representa la dirección prevista del producto, no funcionalidades
+ya implementadas.
 
 ## Dirección del producto
 
@@ -29,8 +34,8 @@ Política deseada -> modelo canónico -> adaptador -> postura efectiva
                  -> comparación -> diagnósticos -> informe
 ```
 
-El modelo canónico expresará los permisos deseados sin depender de un agente.
-Los adaptadores interpretarán las configuraciones nativas que admitan y
+El modelo canónico expresa los permisos deseados sin depender de un agente.
+Los futuros adaptadores interpretarán las configuraciones nativas que admitan y
 declararán sus límites. El comparador identificará correspondencias
 equivalentes, más restrictivas, menos restrictivas, no compatibles o ambiguas.
 Los diagnósticos e informes explicarán las diferencias y posibles soluciones.
@@ -46,11 +51,15 @@ para agentes de IA.
 
 - Un espacio de trabajo Rust con `permbridge-core` y un programa básico
   `permbridge-cli`.
-- Un tipo `Decision`, independiente de la interfaz, con los valores `Allow`,
-  `Ask` y `Deny`, valor predeterminado `Ask` y orden según la restricción.
-- Pruebas unitarias de ese tipo, CI de Rust y documentación del modelo previsto.
-- Ejemplos YAML preliminares y un directorio reservado para una futura
-  extensión TypeScript de VS Code. El código no lee ni valida los ejemplos.
+- Un modelo experimental en memoria, independiente de la interfaz, para
+  decisiones sobre archivos, red y ejecución, además de ámbitos de política
+  y mecanismos de aplicación.
+- Un contrato `AgentAdapter` y tipos que distinguen correspondencias no
+  compatibles o ambiguas. Ningún agente real implementa aún el contrato.
+- Resultados conceptuales de comparación y pruebas unitarias de los
+  invariantes implementados. Todavía no existe un comparador.
+- CI de Rust, ejemplos YAML ilustrativos y un directorio reservado para la
+  futura extensión TypeScript de VS Code. El código no lee ni valida el YAML.
 
 El CLI solo muestra un aviso. No calcula ningún resultado de comparación.
 
@@ -75,33 +84,35 @@ evolución y no tienen ningún efecto.
 
 ## Política y próximos pasos
 
-El modelo previsto incluye una política global del usuario y otra opcional
-del proyecto. La política del proyecto podrá añadir restricciones, pero no
-reducir las globales. Las decisiones canónicas pueden ser `ALLOW`, `ASK` y
-`DENY`, con precedencia `DENY > ASK > ALLOW`; las acciones deseadas desconocidas
-se tratarán como `ASK`. Los adaptadores no deberán suponer que todos los
-agentes tienen estados de permisos idénticos.
+El modelo representa ámbitos de política administrada, global, de proyecto y
+de sesión. Está previsto que la política opcional de proyecto no pueda reducir
+las restricciones globales. Las decisiones canónicas son `ALLOW`, `ASK` y
+`DENY`, con precedencia `DENY > ASK > ALLOW`; una política nueva usa `ASK` por
+defecto. La combinación de ámbitos y la evaluación de acciones aún no están
+implementadas. Los adaptadores no deberán suponer que todos los agentes
+tienen estados de permisos idénticos.
 
-Los próximos hitos son un esquema YAML versionado y su cargador, un modelo
-canónico de capacidades, un primer adaptador probado, la comparación de
-posturas y diagnósticos útiles en el CLI. Más adaptadores y una experiencia
-localizada en VS Code llegarán después. Ninguno de esos hitos está
-implementado en este cambio.
+Los próximos hitos son un esquema YAML versionado y su cargador, un primer
+adaptador probado, la comparación de posturas y diagnósticos útiles en el CLI.
+Más adaptadores y una experiencia localizada en VS Code llegarán después.
+Consulta la [hoja de ruta](docs/roadmap.md), disponible en inglés.
 
 ## Estructura del repositorio
 
 | Ruta | Propósito |
 | --- | --- |
-| `crates/permbridge-core/` | Tipos Rust canónicos; futura lógica de comparación |
+| `crates/permbridge-core/` | Modelo Rust canónico y contrato de adaptadores; futura comparación |
 | `crates/permbridge-cli/` | Programa básico Rust; futuro CLI para usuarios |
-| `adapters/` | Futuros adaptadores específicos; aún sin integraciones |
+| `adapters/` | Futuras implementaciones específicas; aún sin integraciones |
 | `extensions/vscode/` | Directorio reservado para la futura extensión TypeScript |
 | `policies/examples/` | Ejemplos YAML preliminares sin funcionalidad |
 | `docs/` | Documentación técnica canónica en inglés |
 | `tests/` | Directorio reservado para futuras pruebas de integración |
 | `.github/workflows/` | CI de Rust |
 
-La [arquitectura](docs/architecture.md) y los
-[conceptos de política](docs/policy-model.md) se documentan en inglés. Consulta
+La [arquitectura](docs/architecture.md), el
+[modelo canónico](docs/canonical-policy-model.md) y el
+[contrato de adaptadores](docs/adapter-contract.md) se documentan en inglés.
+El [índice técnico](docs/README.md) reúne las demás guías. Consulta
 también las normas para [contribuir](CONTRIBUTING.md) y la información sobre
 [seguridad](SECURITY.md). El proyecto usa la [licencia MIT](LICENSE).

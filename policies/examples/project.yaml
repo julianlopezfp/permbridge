@@ -1,8 +1,10 @@
-# DRAFT ONLY: a project policy may only increase restrictions.
+# ILLUSTRATIVE ONLY: project merging is not implemented.
 version: 1
 
-capabilities:
+policy:
   filesystem:
-    write: deny
-  commands:
-    default: deny
+    write:
+      decision: deny
+  execution:
+    default:
+      decision: deny

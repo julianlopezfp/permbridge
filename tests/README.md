@@ -1,6 +1,6 @@
 # Workspace tests
 
-The current decision-type tests live beside the Core code in
-`crates/permbridge-core/src/lib.rs`. This directory is reserved for future
-cross-crate integration tests of policy loading, adapters, and posture
-comparison after those capabilities exist.
+Current unit tests live beside the Core modules in
+`crates/permbridge-core/src/`. This directory is reserved for future
+cross-crate integration tests of policy loading, real adapters, and posture
+comparison after those capabilities exist. See [testing](../docs/testing.md).

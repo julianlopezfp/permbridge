@@ -1,18 +1,33 @@
-# DRAFT ONLY: this format is not parsed or enforced.
+# ILLUSTRATIVE ONLY: no YAML parser or agent adapter exists yet.
 version: 1
 
-defaults:
-  unknown: ask
+policy:
+  defaults:
+    decision: ask
 
-capabilities:
   filesystem:
-    read: allow
-    write: ask
-    outside_workspace: deny
-  commands:
-    default: ask
+    read:
+      decision: allow
+    write:
+      decision: ask
+    outside_workspace:
+      decision: deny
+
+  network:
+    default:
+      decision: ask
+    domains: []
+
+  execution:
+    default:
+      decision: ask
+    rules: []
 
 validation:
   fail_on:
     - less_restrictive
     - unsupported
+
+targets:
+  - codex
+  - claude-code

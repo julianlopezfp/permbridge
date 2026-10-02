@@ -4,7 +4,7 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Canonical policy decision types for PermBridge"
+description = "Canonical policy model and agent adapter contract for PermBridge"
 
 [lints]
 workspace = true
