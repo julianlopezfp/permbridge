@@ -32,3 +32,7 @@ evidence, not a universal ranking or proof that all actions are contained.
 Real adapters will need tests against native behavior and documented evidence
 limits before PermBridge claims support for an agent. The current test double
 exists only in Core unit tests.
+
+The adapter contract describes agent capabilities, not rights to use
+PermBridge. A future third-party integration must respect the project's
+[license and contribution policy](licensing.md).

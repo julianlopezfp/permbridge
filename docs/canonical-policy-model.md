@@ -34,3 +34,6 @@ The illustrative [global](../policies/examples/global.yaml) and
 [project](../policies/examples/project.yaml) YAML files show a possible
 serialization. They are not parsed, validated, or executable. The `targets`
 list in the global example does not indicate implemented agent support.
+
+Canonical `Allow`, `Ask`, and `Deny` values describe desired agent behavior;
+they are unrelated to the [license grant](licensing.md) for PermBridge itself.

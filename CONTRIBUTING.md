@@ -1,24 +1,23 @@
-# Contributing to PermBridge
+# Issue and development policy
 
-PermBridge is building a canonical policy model for comparing desired
-permissions with coding agents' effective security posture. Keep changes
-focused and distinguish
-planned capabilities from tested behavior. Do not claim support for an agent
-without an implemented adapter and behavior tests.
+PermBridge is authored and maintained by Julián López Jiménez. External pull
+requests, patches, and other code contributions are not accepted. Please do not
+open a pull request or submit code through an Issue. GitHub Issues are welcome
+for bug reports, documentation problems, and suggestions. Security reports
+follow the private process in [SECURITY.md](SECURITY.md).
+
+The current repository is source-available under [BSL 1.1](LICENSE); see
+[licensing details](docs/licensing.md) before using or redistributing it.
 
 ## Language and documentation
 
-Write source code, identifiers, comments, commit messages, issues, and
-canonical technical documentation in English. Keep the main user-facing
-README available in both [English](README.md) and [Spanish](README.es.md).
-When changing user-facing instructions, update both versions. Keep internal
-design documentation in English; future user guides can be paired under
-`docs/user/en/` and `docs/user/es/`.
+Repository content and Issues should be in English. The canonical technical
+documentation and user-facing [README](README.md) are also in English.
 
 ## Development setup
 
-Install stable Rust with `rustfmt` and `clippy`. The VS Code placeholder does
-not require Node.js. Before opening a pull request, run:
+For maintainer work, install stable Rust with `rustfmt` and `clippy`. The VS
+Code placeholder does not require Node.js. Before publishing a change, run:
 
 ```sh
 cargo fmt --all -- --check
@@ -29,8 +28,8 @@ cargo build --workspace --all-targets
 cargo test --workspace --all-targets
 ```
 
-Add focused tests for behavior you implement. Changes to policy merging must
-show that a project policy cannot weaken a global restriction. Adapter changes
-must document native capability limits and provide behavior evidence. Do not
-commit secrets, private prompts, or machine-specific paths. Use a clear
-conventional commit message, such as `docs: clarify comparison outcomes`.
+Maintainer changes to policy merging must show that a project policy cannot
+weaken a global restriction. Adapter changes must document native capability
+limits and provide behavior evidence. The maintainer should add focused tests,
+avoid secrets and machine-specific paths, and use a clear conventional commit
+message.

@@ -1,5 +1,3 @@
-[English](README.md) | [Español](README.es.md)
-
 # PermBridge
 
 **PermBridge means Permission Bridge.** PermBridge is a developer-first policy
@@ -77,6 +75,26 @@ The last command is a smoke test, not an operational CLI. There is no
 installation or configuration procedure for end users yet. The YAML under
 `policies/examples/` illustrates an evolving policy format and has no effect.
 
+## Licensing and authorship
+
+PermBridge is authored and maintained by Julián López Jiménez. The current
+repository is source-available under [Business Source License 1.1](LICENSE),
+with no Additional Use Grant. It permits inspection, copying, modification,
+redistribution, and non-production use, including learning, evaluation, and
+testing. Production use before the applicable Change Date requires a separate
+commercial agreement with the Licensor. BSL 1.1 is not an OSI Open Source
+license before that date.
+
+Each version changes to Apache License 2.0 four calendar years after its Git
+commit timestamp, or the fourth anniversary of first public distribution if
+earlier. See [licensing details](docs/licensing.md) and the
+[authorship notice](NOTICE). Earlier published versions remain available under
+their original MIT terms; this change does not revoke those grants.
+
+Bug reports, documentation problems, and suggestions are welcome through
+GitHub Issues. External pull requests and code contributions are not accepted;
+see the [contribution policy](CONTRIBUTING.md).
+
 ## Policy and roadmap
 
 The model represents managed, global, project, and session policy scopes.
@@ -109,4 +127,4 @@ Read the [architecture](docs/architecture.md),
 [adapter contract](docs/adapter-contract.md) for the design and its limits.
 The [documentation index](docs/README.md) lists the other engineering guides. See
 [contributing](CONTRIBUTING.md) and [security reporting](SECURITY.md) before
-participating. This project is licensed under the [MIT License](LICENSE).
+participating.

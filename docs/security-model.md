@@ -33,3 +33,9 @@ sandbox or generic AI-agent firewall. Mediation may be possible only where a
 specific agent supplies a reliable integration point. No Codex or Claude Code
 adapter, security guarantee, or operational recommendation is supported by
 this repository today.
+
+The security limitations above are independent of permission to use the
+project. BSL permits non-production evaluation but does not make this
+experimental code suitable for security-critical use. See
+[licensing](licensing.md) and the private reporting path in
+[SECURITY.md](../SECURITY.md).

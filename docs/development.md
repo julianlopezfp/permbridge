@@ -26,3 +26,8 @@ focused tests, and the relevant technical document together.
 
 The [contribution guide](../CONTRIBUTING.md) defines language and review
 expectations. [Testing](testing.md) explains what the current checks prove.
+
+Development and local evaluation are covered by the current BSL grant;
+production use of a BSL-covered version before its Change Date requires
+separate terms. See [licensing](licensing.md). This repository does not accept
+external pull requests or patches.

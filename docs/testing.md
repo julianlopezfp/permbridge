@@ -39,3 +39,8 @@ agent adapter is supported, test against representative native
 configurations and the agent's actual behavior where observable. Comparator
 tests must preserve `Unsupported`, `Ambiguous`, and missing observations rather
 than treating them as equivalent.
+
+Licensing metadata and documentation consistency are reviewed by the
+maintainer when the repository license changes. Rust tests validate the code;
+they do not determine legal rights or prove production readiness. See
+[licensing](licensing.md).

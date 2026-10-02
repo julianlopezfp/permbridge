@@ -52,3 +52,7 @@ global/project merge. Managed and session scope precedence remains open.
 For security limits, see [security model](security-model.md). For why the
 canonical model is preferred over pairwise translations, see
 [ADR 0001](decisions/0001-canonical-policy-model.md).
+
+The product's source license and the permissions represented by Core are
+separate concerns. See [licensing](licensing.md) for the BSL grant and
+authorship; no Core decision grants rights to use PermBridge in production.

@@ -19,3 +19,10 @@ details. Include the affected version or commit, reproduction steps, expected
 behavior, and security impact. Do not include credentials or private data.
 
 No response-time or supported-version guarantee is established yet.
+
+Public Issues are appropriate for non-security bugs and suggestions, but not
+for vulnerability details. External pull requests and code contributions are
+not accepted; reporting a vulnerability does not grant permission to submit a
+patch. The reporting process is separate from production-use licensing. See
+[licensing details](docs/licensing.md) for the current grant and commercial-use
+boundary.

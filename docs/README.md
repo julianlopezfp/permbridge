@@ -11,8 +11,8 @@ This directory is the canonical English engineering reference. Start with
 | [Development](development.md) | Toolchain and local commands |
 | [Testing](testing.md) | Test strategy and validation status |
 | [Roadmap](roadmap.md) | Sequenced work and explicit non-goals |
+| [Licensing](licensing.md) | Current grant, authorship, and per-version Change Date |
 | [Architecture decisions](decisions/README.md) | Recorded tradeoffs |
 
-User-facing introductions are available in [English](../README.md) and
-[Spanish](../README.es.md). Future user guides may have parallel language
-versions; the internal design documents remain in English.
+The user-facing introduction is in the [README](../README.md). Repository
+documentation is maintained in English.

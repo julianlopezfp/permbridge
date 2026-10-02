@@ -18,3 +18,7 @@ configuration must be settled before implementing the loader or comparator.
 PermBridge will not be a universal sandbox. Any future enforcement or
 mediation claim must be scoped to a specific agent, capability, and verified
 mechanism.
+
+The licensing and authorship foundation is established before these product
+milestones. Its per-version Change Date is independent of this roadmap; see
+[licensing](licensing.md). External code contributions are not planned.
