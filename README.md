@@ -13,9 +13,10 @@ make those differences visible and actionable.
 > **Current status:** Core has an experimental in-memory policy model and
 > adapter contract. Read-only Codex and Claude Code adapters inspect selected
 > local configuration files, but do not prove runtime enforcement. PermBridge
-> can compare an in-memory desired policy with one adapter posture, but does
-> not load policy YAML, produce user diagnostics, intercept actions, mediate
-> approvals, or integrate with VS Code. It provides no security protection today.
+> can load a version-1 YAML policy and compare the resulting desired policy
+> with one adapter posture, but does not produce user diagnostics, intercept
+> actions, mediate approvals, or integrate with VS Code. It provides no security
+> protection today.
 
 ![PermBridge concept artwork](images/permbridge-github-social-preview.jpg)
 
@@ -49,6 +50,8 @@ not a universal sandbox or a general AI-agent firewall.
   adapters, and a `permbridge-cli` smoke program.
 - An experimental, UI-independent in-memory policy model for filesystem,
   network, and execution decisions, plus policy scope and enforcement strength.
+- A strict, versioned YAML loader for one explicitly supplied desired policy.
+  See the [policy format](docs/policy-format.md); loading does not enforce it.
 - An `AgentAdapter` trait and observation types that distinguish declared,
   missing, unsupported, and ambiguous mappings.
 - An experimental read-only Codex adapter for selected user and trusted-project
@@ -60,8 +63,8 @@ not a universal sandbox or a general AI-agent firewall.
 - An experimental, provider-agnostic in-memory comparator that preserves
   decision relationships, evidence limits, and missing observations. See
   [posture comparison](docs/comparison.md).
-- Rust CI, illustrative YAML examples, and a placeholder for the future
-  TypeScript VS Code extension. The YAML is not parsed or validated.
+- Rust CI, validated YAML examples, and a placeholder for the future
+  TypeScript VS Code extension.
 
 The CLI only prints a scaffold notice. It does not invoke either adapter or
 calculate a comparison result.
@@ -87,8 +90,9 @@ targeting `main`; a passing run does not establish a security guarantee. See
 [testing and validation](docs/testing.md).
 
 The last command is a smoke test, not an operational CLI. There is no
-installation or configuration procedure for end users yet. The YAML under
-`policies/examples/` illustrates an evolving policy format and has no effect.
+installation or full configuration workflow for end users yet. The YAML under
+`policies/examples/` can be loaded through the Core API, but has no effect on
+an agent by itself.
 
 ## Licensing and authorship
 
@@ -119,8 +123,8 @@ the project policy to weaken a global restriction. Canonical decisions are
 `ASK`. Merging scopes and evaluating actions are not implemented. Agent
 adapters must not assume every native permission model has identical states.
 
-The next milestones are a versioned YAML schema and loader, behavior evidence
-for the adapters, and useful CLI diagnostics. A localized
+The next milestones are automatic policy discovery and scope merging, behavior
+evidence for the adapters, and useful CLI diagnostics. A localized
 VS Code experience is later work. See the
 [roadmap](docs/roadmap.md) for explicit boundaries.
 
@@ -128,13 +132,13 @@ VS Code experience is later work. See the
 
 | Path | Purpose |
 | --- | --- |
-| `crates/permbridge-core/` | Canonical Rust model, adapter contract, and in-memory comparator |
+| `crates/permbridge-core/` | Canonical Rust model, YAML loader, adapter contract, and in-memory comparator |
 | `crates/permbridge-cli/` | Rust CLI smoke program; future user CLI |
 | `crates/permbridge-codex/` | Experimental read-only Codex file adapter |
 | `crates/permbridge-claude-code/` | Experimental read-only Claude Code file adapter |
 | `adapters/` | Index for agent integrations |
 | `extensions/vscode/` | Future TypeScript extension placeholder |
-| `policies/examples/` | Draft, nonfunctional YAML policy examples |
+| `policies/examples/` | Valid version-1 desired-policy examples |
 | `docs/` | Canonical English technical documentation |
 | `tests/` | Reserved for future cross-crate integration tests |
 | `.github/workflows/` | Rust CI |

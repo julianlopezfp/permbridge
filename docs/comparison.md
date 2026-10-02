@@ -3,15 +3,17 @@
 **Status: implemented experimental in-memory API.** `permbridge_core::compare`
 takes one `CanonicalPolicy` and one `EffectivePosture`. It returns a
 `ComparisonReport` keyed by canonical `Capability`, or an explicit error for
-conflicting desired selector rules. It does not load YAML, inspect an agent,
-match action requests, merge scopes, or enforce permissions.
+conflicting desired selector rules. It does not itself load YAML, inspect an
+agent, match action requests, merge scopes, or enforce permissions.
 
 The five baseline capabilities are always compared: workspace read, workspace
 write, outside-workspace access, default network access, and default command
 execution. Domain and command selectors already in the in-memory desired
 policy are compared as exact, opaque keys. Equal duplicate desired selectors
-coalesce; conflicting duplicates fail. The policy's top-level fallback
-`default_decision` does not create additional capabilities in this phase.
+coalesce; conflicting duplicates fail. The YAML loader rejects both equal and
+conflicting duplicate selectors before comparison. The policy's top-level
+fallback `default_decision` does not create additional capabilities in this
+phase.
 
 ## Per-capability result
 

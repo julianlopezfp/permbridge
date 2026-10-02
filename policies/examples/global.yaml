@@ -1,33 +1,17 @@
-# ILLUSTRATIVE ONLY: no YAML parser or agent adapter exists yet.
 version: 1
-
-policy:
-  defaults:
-    decision: ask
-
-  filesystem:
-    read:
-      decision: allow
-    write:
-      decision: ask
-    outside_workspace:
+scope: global
+default_decision: ask
+filesystem:
+  read: allow
+  write: ask
+  outside_workspace: deny
+network:
+  default_decision: ask
+  domains:
+    - domain: example.test
       decision: deny
-
-  network:
-    default:
+execution:
+  default_decision: ask
+  rules:
+    - command: synthetic-build
       decision: ask
-    domains: []
-
-  execution:
-    default:
-      decision: ask
-    rules: []
-
-validation:
-  fail_on:
-    - less_restrictive
-    - unsupported
-
-targets:
-  - codex
-  - claude-code

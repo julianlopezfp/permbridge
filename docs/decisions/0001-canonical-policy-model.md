@@ -23,6 +23,6 @@ equivalent native setting.
 
 The shared model gives comparisons a stable point of reference and avoids a
 matrix of pairwise converters. It also requires careful specification of
-capabilities and selector semantics; the current Rust types and YAML examples
-are not a complete or stable policy language. Some native capabilities may
+capabilities and selector semantics; the current Rust types and version-1 YAML
+input are not a complete or stable policy language. Some native capabilities may
 remain unrepresentable and should be reported as such.

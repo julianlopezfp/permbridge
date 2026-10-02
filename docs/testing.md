@@ -11,8 +11,12 @@ evidence, uncertain and missing observations, mixed and deterministically
 ordered results, unrequested observations, and duplicate desired selectors.
 The test adapter is not a product integration.
 
-The crate does not serialize or deserialize policies, so there are no
-serialization tests. `policies/examples/` contains illustrative YAML only.
+Core loader tests cover minimal and complete version-1 YAML, ASK defaults,
+decisions, scopes, malformed input, version and field errors, opaque selector
+validation, duplicate rules, privacy-safe errors, unchanged temporary files,
+and all repository examples. One test passes a loaded policy into the existing
+comparator with synthetic posture. Serialization back to YAML is not
+implemented, so there are no round-trip tests.
 The Codex crate tests synthetic user and project TOML fixtures, project-over-
 user precedence, skipped untrusted projects, missing files, malformed and
 invalid settings, unknown values, permission-profile ambiguity, unsupported
@@ -54,15 +58,15 @@ build or an executed test run.
 
 ## Remaining test gaps
 
-Before policy files become executable, add schema and validation tests,
-including malformed input and precedence across scopes. Before claiming an
+Before a multi-policy workflow exists, specify discovery and precedence across
+scopes and test those rules. Before claiming an
 adapter enforces a native boundary, test the agent's behavior on supported
 platforms and versions. Comparator tests must preserve `NotConfigured`,
 `Unsupported`, `Ambiguous`, and missing observations rather than treating them
 as equivalent. The current adapter fixture tests establish static parser and
 mapping behavior only; see [compatibility](compatibility/README.md).
-The comparator tests do not validate native runtime mechanisms or supply a
-policy loader; see [comparison](comparison.md).
+The comparator tests do not validate native runtime mechanisms; the loader
+integration test only supplies desired policy input. See [comparison](comparison.md).
 
 Licensing metadata and documentation consistency are reviewed by the
 maintainer when the repository license changes. Rust tests validate the code;

@@ -8,3 +8,9 @@ description = "Canonical policy model and agent adapter contract for PermBridge"
 
 [lints]
 workspace = true
+
+[dependencies]
+serde_yaml_ng = "0.10"
+
+[dev-dependencies]
+tempfile = "3"

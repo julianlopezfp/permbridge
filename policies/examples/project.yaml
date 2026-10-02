@@ -1,10 +1,9 @@
-# ILLUSTRATIVE ONLY: project merging is not implemented.
 version: 1
-
-policy:
-  filesystem:
-    write:
-      decision: deny
-  execution:
-    default:
-      decision: deny
+scope: project
+filesystem:
+  write: deny
+  outside_workspace: deny
+network:
+  default_decision: deny
+execution:
+  default_decision: deny

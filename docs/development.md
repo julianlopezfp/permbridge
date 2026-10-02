@@ -1,7 +1,8 @@
 # Development
 
 Install stable Rust with `rustfmt` and `clippy`, as specified in
-`rust-toolchain.toml`. The Codex adapter uses `toml` and its tests use
+`rust-toolchain.toml`. Core uses `serde_yaml_ng` for YAML syntax and `tempfile`
+in loader tests. The Codex adapter uses `toml` and its tests use
 `tempfile`. Node.js is unnecessary because the VS Code extension is a
 placeholder.
 
@@ -24,14 +25,20 @@ It uses the repository's stable Rust toolchain and requires no secrets.
 `cargo run -p permbridge-cli` is only a startup smoke test. It prints a notice
 and does not read policy files or inspect agents.
 
-Core modules are organized by responsibility: `decision`, `policy`, `adapter`,
-and `comparison`. The public exports in `lib.rs` are an experimental domain
-surface, not a stable integration API. Keep Core independent of provider SDKs,
-UI strings, and file formats. Changes to the model should update Rustdoc,
-focused tests, and the relevant technical document together.
+Core modules are organized by responsibility: `decision`, `policy`, `loading`,
+`adapter`, and `comparison`. The public exports in `lib.rs` are an experimental
+domain surface, not a stable integration API. The provider-agnostic `loading`
+module owns YAML input; the canonical policy types remain independent of YAML
+representation. Keep Core independent of provider SDKs and UI strings.
+Changes to the model should update Rustdoc, focused tests, and the relevant
+technical document together.
 The provider-agnostic `compare` function consumes an in-memory policy and
 posture. It performs no file access. See [posture comparison](comparison.md)
 for its evidence threshold and handling of incomplete observations.
+
+Run `cargo test -p permbridge-core --test policy_loading` for the focused
+version-1 loader suite. See the [policy format](policy-format.md) for the
+accepted structure and limits.
 
 `permbridge-codex` is a separate crate with a read-only file loader and a
 conservative mapping step. Its caller must provide the Codex home, optional

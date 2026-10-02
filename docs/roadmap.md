@@ -5,7 +5,7 @@ This sequence records intended work, not release commitments.
 | Stage | Deliverable | State |
 | --- | --- | --- |
 | 1 | Agent-agnostic in-memory policy types, observation vocabulary, and adapter contract | Implemented; experimental API |
-| 2 | Versioned YAML schema, loader, validation, and scope-merging rules | Planned |
+| 2 | Versioned YAML schema, loader, and validation; then discovery and scope merging | Loader implemented experimentally; discovery and merging planned |
 | 3 | Read-only Codex and Claude Code file inspection, then native behavior evidence | Both file adapters implemented experimentally; runtime behavior tests planned |
 | 4 | In-memory comparator, then diagnostics and useful CLI report | Comparator implemented experimentally; diagnostics and CLI report planned |
 | 5 | Broader tested agent support and localized VS Code UX | Planned |

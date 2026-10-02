@@ -6,6 +6,7 @@ This directory is the canonical English engineering reference. Start with
 | Document | Purpose |
 | --- | --- |
 | [Canonical policy model](canonical-policy-model.md) | In-memory types, defaults, and unresolved policy semantics |
+| [Policy format](policy-format.md) | Version-1 YAML fields, defaults, validation, and loader API |
 | [Adapter contract](adapter-contract.md) | Inspection boundary and observation meanings |
 | [Posture comparison](comparison.md) | Evidence-aware per-capability results and limits |
 | [Agent compatibility](compatibility/README.md) | Experimental Codex and Claude Code adapters and evidence limits |

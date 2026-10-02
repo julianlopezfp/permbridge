@@ -15,7 +15,7 @@ pub enum PolicyScope {
 }
 
 /// Desired permissions for the capabilities currently represented by Core.
-/// This in-memory model is experimental and is not a validated YAML schema.
+/// This in-memory model is experimental. YAML version 1 maps into it.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct CanonicalPolicy {
     /// Origin of this policy. The Core does not merge scopes yet.
@@ -67,7 +67,7 @@ impl Default for FilesystemPolicy {
 }
 
 /// Desired network permissions. Domain rules are stored for future adapter
-/// translation; Core does not validate domains or match requests yet.
+/// translation; Core does not match requests to domains yet.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct NetworkPolicy {
     /// Fallback network decision.
@@ -85,8 +85,8 @@ impl Default for NetworkPolicy {
     }
 }
 
-/// A domain-specific desired decision. Domain syntax and matching semantics
-/// are intentionally unspecified until validation and adapters exist.
+/// A domain-specific desired decision. YAML selectors are nonempty opaque
+/// strings; matching semantics are intentionally unspecified.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct NetworkRule {
     /// Domain selector as supplied by the caller.

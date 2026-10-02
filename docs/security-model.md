@@ -23,9 +23,9 @@ setting, a mediated tool call, and an OS sandbox boundary have different trust
 properties. The enum is not a blanket security ranking; a sandbox claim must
 be scoped to the specific operation and verified integration behavior.
 
-The future loader should reject malformed or unrecognized policy input
-explicitly. Until it exists, YAML examples are inert. The intended
-global/project rule is to retain the more restrictive comparable decision;
+The version-1 loader rejects malformed, unrecognized, and contradictory policy
+input explicitly. Loaded YAML remains desired intent without enforcement. The
+intended global/project rule is to retain the more restrictive comparable decision;
 managed and session policy precedence is not yet defined. No fallback should
 silently grant permission because a mapping or observation is absent.
 

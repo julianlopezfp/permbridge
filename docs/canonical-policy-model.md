@@ -1,28 +1,28 @@
 # Canonical policy model
 
-**Status: experimental in-memory API.** The Rust types represent intent; they
-do not define a stable YAML schema or enforce a policy.
+**Status: experimental API.** The Rust types represent intent. A strict
+version-1 YAML input maps to them; neither form enforces a policy.
 
 `CanonicalPolicy` records a `PolicyScope`, a fallback `Decision`, and separate
 filesystem, network, and execution policies. A new policy defaults every
 decision to `Ask` and starts with empty domain and command rule lists. This
-prevents an omitted in-memory field from implying `Allow`, but no parser or
-runtime evaluation exists.
+prevents an omitted field from implying `Allow`. The YAML loader uses the same
+defaults; no runtime evaluation exists.
 
 | Dimension | Represented intent | Current limitation |
 | --- | --- | --- |
 | Decision | `Allow`, `Ask`, `Deny` | Native approval states may differ |
 | Filesystem | Read, write, and outside-workspace decisions | No path matching or access interception |
-| Network | Default and domain-specific decisions | Domain syntax and matching unspecified |
-| Execution | Default and command-specific decisions | Command syntax and matching unspecified |
+| Network | Default and domain-specific decisions | YAML selectors are nonempty opaque strings; matching unspecified |
+| Execution | Default and command-specific decisions | YAML selectors are nonempty opaque strings; matching unspecified |
 | Scope | Managed, global, project, session | Only global/project restriction rule stated; no merge engine |
 
 `outside_workspace` is an additional boundary condition, not a substitute for
 read or write. A future evaluator must combine it with the operation decision
 without weakening either. For comparable global and project decisions,
 `Deny > Ask > Allow`; `Decision::most_restrictive` expresses that ordering. The
-precedence of managed and session policies, conflict reporting, and malformed
-policy behavior require decisions before a loader is built.
+precedence of managed and session policies and cross-scope conflict reporting
+remain open. Malformed policy input fails loading.
 
 An agent adapter may report an observed decision with `Declared`,
 `ToolMediated`, or `OsSandbox` enforcement strength. The strength is separate
@@ -47,10 +47,9 @@ separately from final evidence-aware outcomes. The top-level fallback
 `default_decision` does not generate additional capabilities; the five
 baseline fields and explicit selector rules define what is compared.
 
-The illustrative [global](../policies/examples/global.yaml) and
-[project](../policies/examples/project.yaml) YAML files show a possible
-serialization. They are not parsed, validated, or executable. The `targets`
-list in the global example does not indicate implemented agent support.
+The [version-1 format](policy-format.md) documents exact YAML fields,
+defaults, and validation. The [examples](../policies/examples/README.md) are
+valid inputs. Loading them does not configure or enforce any agent.
 
 Canonical `Allow`, `Ask`, and `Deny` values describe desired agent behavior;
 they are unrelated to the [license grant](licensing.md) for PermBridge itself.

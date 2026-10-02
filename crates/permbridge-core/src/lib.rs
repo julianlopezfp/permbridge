@@ -3,11 +3,13 @@
 //! Agent-agnostic policy and observation types for PermBridge.
 //!
 //! This experimental API represents desired policy and adapter observations.
-//! It does not parse YAML or inspect an agent. Comparison is in memory only.
+//! YAML policies can be loaded into the canonical model. Loading does not
+//! inspect an agent or enforce a policy.
 
 mod adapter;
 mod comparison;
 mod decision;
+mod loading;
 mod policy;
 
 pub use adapter::{
@@ -18,6 +20,7 @@ pub use comparison::{
     ComparisonReport, DecisionRelation,
 };
 pub use decision::Decision;
+pub use loading::{load_policy_file, load_policy_yaml, PolicyLoadError};
 pub use policy::{
     CanonicalPolicy, ExecutionPolicy, ExecutionRule, FilesystemPolicy, NetworkPolicy, NetworkRule,
     PolicyScope,
