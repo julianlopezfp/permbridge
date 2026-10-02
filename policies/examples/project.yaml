@@ -1,0 +1,5 @@
+# DRAFT ONLY: a project policy may only increase restrictions.
+version: 1
+rules:
+  - action: write_file
+    decision: DENY

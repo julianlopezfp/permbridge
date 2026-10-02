@@ -1,0 +1,7 @@
+# DRAFT ONLY: no parser or enforcement exists in v0.1.
+version: 1
+rules:
+  - action: delete_file
+    decision: DENY
+  - action: write_file
+    decision: ASK
