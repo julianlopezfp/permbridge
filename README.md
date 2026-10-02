@@ -32,8 +32,8 @@ Desired policy -> canonical model -> agent adapter -> effective posture
 ```
 
 The canonical model expresses desired permissions independently of any
-agent. Future adapters will interpret supported native configurations and report
-their limitations. A comparator will identify equivalent, more restrictive,
+agent. Adapters interpret supported native configurations and report their
+limitations. A comparator will identify equivalent, more restrictive,
 less restrictive, unsupported, and ambiguous mappings. Diagnostics and reports
 will explain gaps and possible remediation. The CLI is the first planned user
 experience; the VS Code extension comes later.
@@ -45,8 +45,8 @@ not a universal sandbox or a general AI-agent firewall.
 
 ## What is implemented
 
-- A Rust workspace containing `permbridge-core` and a `permbridge-cli` smoke
-  program.
+- A Rust workspace containing `permbridge-core`, `permbridge-codex`, and a
+  `permbridge-cli` smoke program.
 - An experimental, UI-independent in-memory policy model for filesystem,
   network, and execution decisions, plus policy scope and enforcement strength.
 - An `AgentAdapter` trait and observation types that distinguish declared,
@@ -71,10 +71,16 @@ VS Code are not needed for this skeleton.
 cargo fmt --all -- --check
 cargo clippy --workspace --all-targets -- -D warnings
 cargo check --workspace --all-targets
+RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
 cargo build --workspace --all-targets
 cargo test --workspace --all-targets
 cargo run -p permbridge-cli
 ```
+
+Run the validation commands before committing and pushing. GitHub Actions
+repeats the same quality gates on Ubuntu for pushes to `main` and pull requests
+targeting `main`; a passing run does not establish a security guarantee. See
+[testing and validation](docs/testing.md).
 
 The last command is a smoke test, not an operational CLI. There is no
 installation or configuration procedure for end users yet. The YAML under

@@ -1,7 +1,8 @@
 # Development
 
-Install stable Rust with `rustfmt` and `clippy`. The workspace has no external
-Rust dependencies. Node.js is unnecessary because the VS Code extension is a
+Install stable Rust with `rustfmt` and `clippy`, as specified in
+`rust-toolchain.toml`. The Codex adapter uses `toml` and its tests use
+`tempfile`. Node.js is unnecessary because the VS Code extension is a
 placeholder.
 
 From the repository root, run:
@@ -14,6 +15,11 @@ RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
 cargo build --workspace --all-targets
 cargo test --workspace --all-targets
 ```
+
+Run all six validation commands locally before committing or pushing. The
+[GitHub Actions workflow](../.github/workflows/ci.yml) repeats them in a clean
+Ubuntu environment on pushes to `main` and pull requests targeting `main`.
+It uses the repository's stable Rust toolchain and requires no secrets.
 
 `cargo run -p permbridge-cli` is only a startup smoke test. It prints a notice
 and does not read policy files or inspect agents.

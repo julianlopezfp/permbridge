@@ -19,8 +19,8 @@ Codex or validate actual OS sandbox behavior. No Claude Code adapter exists.
 
 ## Validation commands
 
-CI runs formatting, strict Clippy, type checking, Rustdoc, build, and tests on
-Linux:
+Run formatting, strict Clippy, type checking, Rustdoc, build, and tests locally
+before committing or pushing:
 
 ```sh
 cargo fmt --all -- --check
@@ -30,6 +30,12 @@ RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps
 cargo build --workspace --all-targets
 cargo test --workspace --all-targets
 ```
+
+The [GitHub Actions workflow](../.github/workflows/ci.yml) runs the same six
+commands in a clean Ubuntu environment for pushes to `main` and pull requests
+targeting `main`. It provides independent verification of these implemented
+checks. A successful run does not prove Codex runtime behavior, policy
+equivalence, or security enforcement.
 
 `cargo check` is also useful locally without linking. It does not replace a
 build or an executed test run.
