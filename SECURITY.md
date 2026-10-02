@@ -2,9 +2,11 @@
 
 ## Current status
 
-AgentGuard v0.1 is a project skeleton. It does not intercept agent actions,
-load policies, request approval, or enforce decisions. Do not depend on it to
-protect a repository or system.
+PermBridge is a project skeleton. It does not import agent configurations,
+compare effective posture, intercept actions, mediate approval, or enforce
+decisions. Do not depend on it to protect a repository or system. Future
+diagnostics will be limited by each adapter's evidence and the underlying
+agent's controls.
 
 ## Reporting a vulnerability
 

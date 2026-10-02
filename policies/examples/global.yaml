@@ -1,7 +1,18 @@
-# DRAFT ONLY: no parser or enforcement exists in v0.1.
+# DRAFT ONLY: this format is not parsed or enforced.
 version: 1
-rules:
-  - action: delete_file
-    decision: DENY
-  - action: write_file
-    decision: ASK
+
+defaults:
+  unknown: ask
+
+capabilities:
+  filesystem:
+    read: allow
+    write: ask
+    outside_workspace: deny
+  commands:
+    default: ask
+
+validation:
+  fail_on:
+    - less_restrictive
+    - unsupported

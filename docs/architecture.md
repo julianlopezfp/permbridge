@@ -1,50 +1,67 @@
-# Architecture and v0.1 scope
+# Architecture and scope
 
-## Intended architecture
+## Purpose
 
-AgentGuard is a local policy layer between an AI coding agent's requested
-action and an eventual decision consumer. The Core is intended to accept a
-language-neutral action description and policy data, then return a decision
-that a separate integration can present or enforce. The Core must not depend
-on VS Code, terminal UI, a particular agent, or localized message strings.
+PermBridge is intended to compare a developer's desired permissions with the
+effective security posture of AI coding agents. It addresses incompatible
+permission models, configuration formats, approval behavior, and capabilities
+across tools. It is not designed as a universal sandbox or generic agent
+firewall.
 
-The planned monorepo parts are:
+The conceptual flow is:
 
-1. `agentguard-core` (Rust): policy parsing, matching, and decision logic.
-2. `agentguard-cli` (Rust): a local test and development entry point.
-3. `extensions/vscode` (TypeScript): a future editor integration that consumes
-   Core decisions and localizes user-facing text.
+```text
+Desired policy -> canonical model -> agent adapter -> effective posture
+               -> comparison -> diagnostics -> report
+```
 
-The first commit only provides the workspace, a `Decision` value type, a CLI
-startup smoke test, and tests for that type. No API for action evaluation or
-approval exists yet. The extension directory has no package or executable
-implementation.
+The Core remains UI- and language-agnostic. Agent integrations must describe
+what they can observe and where their mapping is incomplete. A less restrictive
+or unknown effective posture must never be presented as equivalent without
+evidence.
 
-## Security model
+## Planned responsibilities
 
-The planned trust boundary is local. A future integration will need to ensure
-that every relevant agent action is actually presented to the evaluator and
-that a DENY result prevents execution. An ASK result will require a separate
-approval flow before execution. Neither interception nor approval is present
-in v0.1, so this repository currently provides no security protection.
+| Component | Responsibility | Status |
+| --- | --- | --- |
+| Canonical Policy Model | Represent desired capabilities and decisions without agent-specific syntax | Decision enum only |
+| Policy Loader & Validator | Parse a versioned YAML policy and reject invalid or unsafe input | Planned |
+| Agent Adapter Interface | Define a common contract for agent-specific observation and capability limits | Planned |
+| Configuration Importer | Read native agent configuration through an adapter | Planned |
+| Policy Comparator | Compare desired permissions with observed effective posture | Planned |
+| Diagnostics Engine | Describe gaps, ambiguity, unsupported rules, and remediation options | Planned |
+| Audit/Report Layer | Present evidence and findings without overstating guarantees | Planned |
+| CLI | Provide a unified developer experience | Startup smoke program only |
 
-The policy model will combine a global user policy with an optional project
-policy. Project rules can increase restrictions only. Unmatched actions will
-default to ASK. See [policy model](policy-model.md) for the intended combining
-rules and current gaps.
+The future TypeScript VS Code extension will be a UI client. It must not own
+the canonical policy semantics or silently invent an agent capability.
 
-## Internationalization boundary
+## Trust and security boundaries
 
-Decision variants (`Allow`, `Ask`, `Deny`) are stable internal concepts, not
-translated UI messages. Future CLI and editor interfaces should provide
-English and Spanish messages without embedding localized strings in Core.
-The scaffold CLI currently emits only an English development notice and is not
-an operational user interface.
+An adapter's evidence is limited by the underlying agent's native controls
+and observable configuration. A supported mapping still requires tests against
+that agent's actual behavior. If a rule is unsupported or ambiguous, the
+comparison should say so. Enforcement or mediation may be added only where a
+specific integration can reliably implement it. PermBridge itself is not a
+general-purpose action interceptor.
 
-## Scope excluded from this commit
+The planned policy sources are a global user policy and an optional project
+policy. Project policy may increase restrictions, but must not weaken global
+restrictions. Unknown desired actions default to ASK. Native agents may not
+have exact ALLOW, ASK, and DENY equivalents; adapters will need to preserve
+that distinction in their results. See [policy concepts](policy-model.md).
 
-- Policy file loading, validation, matching, and precedence evaluation.
-- Agent action interception or enforcement.
-- ASK approval workflow or persistence.
-- VS Code extension implementation or TypeScript build.
-- Security guarantees for agent activity.
+## Implemented scope
+
+This migration commit retains the small executable skeleton: a Rust workspace,
+a canonical `Decision` enum with ordering and tests, and a CLI that prints a
+scaffold notice. It adds no policy parser, adapter, importer, comparator,
+diagnostics, report, interception, approval flow, or VS Code implementation.
+Draft YAML examples are not consumed by the code. The repository provides no
+security protection in this state.
+
+## Internationalization
+
+Core values are language-neutral. Future user interfaces should localize
+English and Spanish messages outside Core. The current CLI prints an English
+development notice only and is not an operational interface.

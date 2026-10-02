@@ -1,30 +1,57 @@
-# Policy concepts (design draft)
+# Policy and posture comparison concepts
 
-## Decisions
+This document describes the planned model. No policy schema, parser, adapter,
+or comparator is implemented in the current skeleton.
 
-The intended result for a requested action is `ALLOW`, `ASK`, or `DENY`.
-Their restriction order is `DENY > ASK > ALLOW`. The Core currently contains
-only a Rust enum with this order and a default value of `Ask`. It does not
-evaluate requested actions.
+## Canonical desired policy
 
-## Sources and combination
+A future YAML policy will describe desired capabilities without depending on
+an agent's native configuration syntax. A canonical decision may be `ALLOW`,
+`ASK`, or `DENY`. The intended restriction order is `DENY > ASK > ALLOW` and
+unknown or unmatched desired actions default to `ASK`. The Rust Core currently
+provides only a `Decision` enum with this order and default; it does not load
+or evaluate policies.
 
-The future evaluator will read a global user policy and may read a project
-policy. It should calculate each source's decision and choose the more
-restrictive one. Thus, a project policy cannot downgrade a global `DENY` to
-`ASK` or `ALLOW`, or a global `ASK` to `ALLOW`. A rule that matches no action
-should result in `ASK`; no policy file or invalid policy must not silently
-produce `ALLOW`. Error handling and policy file locations still need design.
+The future evaluator will combine a global user policy with an optional
+project policy. For a comparable capability, the more restrictive decision
+must win. A project policy must not downgrade a global `DENY` to `ASK` or
+`ALLOW`, or a global `ASK` to `ALLOW`. Missing, invalid, and conflicting
+policy behavior requires an explicit versioned specification before parsing
+is implemented.
 
-Within a policy, the intended precedence among matching rules is also
-`DENY > ASK > ALLOW`. Exact action categories, match fields, validation rules,
-and YAML schema are not finalized. The examples in `policies/examples/` are
-illustrative drafts and are not parsed or enforced by v0.1.
+## Effective posture and agent adapters
 
-## Future work needed for enforcement
+An adapter will import an agent's native configuration, normalize only
+supported permissions, and report evidence and capability limits. Native
+approval states may not be equivalent to canonical `ASK`; native allow and
+deny rules may have different scope or enforcement guarantees. A mapping must
+preserve such differences instead of assuming that all agents implement the
+three canonical states identically.
 
-An enforceable release needs a documented action model, a versioned YAML
-schema, strict parsing and validation, reliable interception at integration
-boundaries, a safe response to errors, and an explicit approval flow for ASK.
-It also needs tests showing that the project policy cannot weaken the global
-policy. None of those mechanisms exists in this skeleton.
+No agent adapter exists yet. The `adapters/` directory records the intended
+boundary without claiming support for Codex, Claude Code, Cursor, or any
+other agent.
+
+## Comparison outcomes
+
+The planned comparison vocabulary includes:
+
+| Outcome | Meaning |
+| --- | --- |
+| `EQUIVALENT` | Observed effective behavior matches the desired capability within the adapter's stated evidence limits. |
+| `MORE_RESTRICTIVE` | The observed behavior imposes a stronger restriction. |
+| `LESS_RESTRICTIVE` | The observed behavior permits more than intended. |
+| `UNSUPPORTED` | The agent cannot express or verify the desired rule through the adapter. |
+| `AMBIGUOUS` | Available evidence cannot establish a reliable ordering or mapping. |
+
+These are conceptual outcomes, not values currently produced by code. A
+future diagnostics engine should explain the evidence, gaps, and possible
+remediation for each finding. Unsupported and ambiguous results must remain
+visible rather than being treated as equivalent.
+
+## Draft YAML examples
+
+The examples in `policies/examples/` illustrate desired permissions and
+comparison validation preferences. Their field names and meanings may change
+when the versioned schema is defined. They are not parsed, validated, or
+enforced by this repository.

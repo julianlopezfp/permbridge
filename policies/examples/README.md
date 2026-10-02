@@ -1,6 +1,11 @@
-# Draft policy examples
+# Draft desired-policy examples
 
-The YAML in this directory illustrates possible global and project policy
-roles. There is no implemented schema, parser, or evaluator. These files have
-no effect on AgentGuard or on any AI coding agent. Field names and action
-names may change when the policy format is specified.
+These YAML files illustrate the planned canonical policy model. There is no
+implemented schema, parser, validator, comparator, or enforcement. The files
+have no effect on PermBridge or on any coding agent. Field names and semantics
+may change before the first functional policy release.
+
+`global.yaml` illustrates a global desired policy. `project.yaml` illustrates
+an optional project policy that increases restrictions for selected
+capabilities. The example does not prove that project restrictions are merged
+correctly; that behavior is future work.

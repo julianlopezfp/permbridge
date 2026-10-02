@@ -1,13 +1,13 @@
 [package]
-name = "agentguard-cli"
+name = "permbridge-cli"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Local development CLI scaffold for AgentGuard"
+description = "Local development CLI scaffold for PermBridge"
 
 [dependencies]
-agentguard-core = { path = "../agentguard-core" }
+permbridge-core = { path = "../permbridge-core" }
 
 [lints]
 workspace = true

@@ -3,12 +3,12 @@
 version = 4
 
 [[package]]
-name = "agentguard-cli"
+name = "permbridge-cli"
 version = "0.1.0"
 dependencies = [
- "agentguard-core",
+ "permbridge-core",
 ]
 
 [[package]]
-name = "agentguard-core"
+name = "permbridge-core"
 version = "0.1.0"

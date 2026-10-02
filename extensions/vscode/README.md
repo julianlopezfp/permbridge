@@ -1,8 +1,9 @@
 # VS Code extension placeholder
 
 This directory reserves the future TypeScript extension. It has no package,
-build process, VS Code integration, or executable code in v0.1.
+build process, VS Code integration, or executable code in the current
+skeleton.
 
-The extension is planned as a user interface for AgentGuard Core. It must not
-become the source of policy decisions. User-facing text should be localizable
-in English and Spanish when implementation begins.
+The extension is planned as a localized UI for PermBridge reports. Canonical
+policy semantics and posture comparison belong in the Rust Core. User-facing
+text should be available in English and Spanish when implementation begins.

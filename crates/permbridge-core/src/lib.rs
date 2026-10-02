@@ -1,10 +1,11 @@
-//! Shared decision types for AgentGuard.
+//! Shared canonical policy types for PermBridge.
 //!
-//! Policy loading, matching, and enforcement are not implemented yet.
+//! Policy loading, agent adapters, and posture comparison are not implemented yet.
 
-/// A policy decision. The variant order reflects the planned restriction
-/// precedence: `Deny` is more restrictive than `Ask`, which is more
-/// restrictive than `Allow`.
+/// A desired canonical policy decision. Agent-specific permission states may
+/// not map to these variants exactly. The variant order reflects the planned
+/// restriction precedence: `Deny` is more restrictive than `Ask`, which is
+/// more restrictive than `Allow`.
 #[derive(Clone, Copy, Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
 pub enum Decision {
     Allow,
