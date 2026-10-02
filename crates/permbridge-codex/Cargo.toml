@@ -1,0 +1,17 @@
+[package]
+name = "permbridge-codex"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Read-only Codex configuration adapter for PermBridge"
+
+[dependencies]
+permbridge-core = { path = "../permbridge-core" }
+toml = "1.1.6"
+
+[dev-dependencies]
+tempfile = "3.27.0"
+
+[lints]
+workspace = true

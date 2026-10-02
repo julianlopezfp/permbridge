@@ -46,6 +46,9 @@ pub enum CapabilityObservation {
         /// Mechanism observed for this specific capability.
         enforcement: EnforcementStrength,
     },
+    /// The inspected configuration sources do not explicitly set this
+    /// capability; no runtime default has been inferred.
+    NotConfigured,
     /// The native agent cannot represent or expose the capability.
     Unsupported,
     /// The adapter cannot establish a reliable interpretation.
@@ -179,6 +182,10 @@ mod tests {
         assert_eq!(
             posture.capabilities.get(&Capability::NetworkDefault),
             Some(&CapabilityObservation::Unsupported)
+        );
+        assert_ne!(
+            posture.capabilities.get(&Capability::NetworkDefault),
+            Some(&CapabilityObservation::NotConfigured)
         );
         assert_eq!(
             posture.capabilities.get(&Capability::ExecutionDefault),

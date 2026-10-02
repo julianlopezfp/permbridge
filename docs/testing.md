@@ -11,8 +11,11 @@ The test adapter is not a product integration.
 
 The crate does not serialize or deserialize policies, so there are no
 serialization tests. `policies/examples/` contains illustrative YAML only.
-There are no Codex or Claude Code integration tests because no such adapter
-exists.
+The Codex crate tests synthetic user and project TOML fixtures, project-over-
+user precedence, skipped untrusted projects, missing files, malformed and
+invalid settings, unknown values, permission-profile ambiguity, unsupported
+selectors, source provenance, and unchanged input files. They do not launch
+Codex or validate actual OS sandbox behavior. No Claude Code adapter exists.
 
 ## Validation commands
 
@@ -35,10 +38,11 @@ build or an executed test run.
 
 Before policy files become executable, add schema and validation tests,
 including malformed input and precedence across scopes. Before claiming an
-agent adapter is supported, test against representative native
-configurations and the agent's actual behavior where observable. Comparator
-tests must preserve `Unsupported`, `Ambiguous`, and missing observations rather
-than treating them as equivalent.
+adapter enforces a native boundary, test the agent's behavior on supported
+platforms and versions. Comparator tests must preserve `NotConfigured`,
+`Unsupported`, `Ambiguous`, and missing observations rather than treating them
+as equivalent. The current Codex fixture tests establish parser and mapping
+behavior only; see [compatibility](compatibility/codex.md).
 
 Licensing metadata and documentation consistency are reviewed by the
 maintainer when the repository license changes. Rust tests validate the code;

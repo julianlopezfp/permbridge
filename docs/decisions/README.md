@@ -7,3 +7,4 @@ known.
 - [ADR 0001: Canonical policy model](0001-canonical-policy-model.md)
 - [ADR 0002: Agent adapters outside Core domain types](0002-agent-adapters.md)
 - [ADR 0003: BSL 1.1 licensing and closed contributions](0003-bsl-licensing.md)
+- [ADR 0004: Conservative Codex file inspection](0004-codex-file-inspection.md)

@@ -10,11 +10,12 @@ approval mechanisms, and security guarantees. Switching agents can therefore
 change a developer's effective security posture. PermBridge is designed to
 make those differences visible and actionable.
 
-> **Current status:** Core now has an experimental in-memory policy model and
-> agent adapter contract. It does not load YAML, import any real agent
-> configuration, compare postures, produce diagnostics, intercept actions,
-> mediate approvals, or integrate with VS Code. No real adapter exists, and
-> PermBridge provides no security protection today.
+> **Current status:** Core has an experimental in-memory policy model and
+> adapter contract. A read-only Codex adapter can inspect selected local
+> configuration files, but it does not prove runtime enforcement. PermBridge
+> does not load policy YAML, compare postures, produce diagnostics, intercept
+> actions, mediate approvals, or integrate with VS Code. It provides no
+> security protection today.
 
 ![PermBridge concept artwork](images/permbridge-github-social-preview.jpg)
 
@@ -48,14 +49,18 @@ not a universal sandbox or a general AI-agent firewall.
   program.
 - An experimental, UI-independent in-memory policy model for filesystem,
   network, and execution decisions, plus policy scope and enforcement strength.
-- An `AgentAdapter` trait and observation types that can preserve unsupported
-  and ambiguous mappings. No concrete agent adapter implements the trait.
+- An `AgentAdapter` trait and observation types that distinguish declared,
+  missing, unsupported, and ambiguous mappings.
+- An experimental read-only Codex adapter for selected user and trusted-project
+  TOML settings. It reports file provenance and conservative filesystem
+  observations; see [Codex compatibility](docs/compatibility/codex.md).
 - Comparison outcome vocabulary and focused unit tests for the implemented
   invariants. No comparator calculates outcomes yet.
 - Rust CI, illustrative YAML examples, and a placeholder for the future
   TypeScript VS Code extension. The YAML is not parsed or validated.
 
-The CLI only prints a scaffold notice. No comparison result is calculated.
+The CLI only prints a scaffold notice. It does not invoke the Codex adapter or
+calculate a comparison result.
 
 ## Development
 
@@ -104,9 +109,9 @@ the project policy to weaken a global restriction. Canonical decisions are
 `ASK`. Merging scopes and evaluating actions are not implemented. Agent
 adapters must not assume every native permission model has identical states.
 
-The next milestones are a versioned YAML schema and loader, one tested agent
-adapter, posture comparison, and useful CLI diagnostics. Additional adapters
-and a localized VS Code experience are later work. See the
+The next milestones are a versioned YAML schema and loader, broader Codex
+behavior evidence, posture comparison, and useful CLI diagnostics. Additional
+adapters and a localized VS Code experience are later work. See the
 [roadmap](docs/roadmap.md) for explicit boundaries.
 
 ## Repository map
@@ -115,7 +120,8 @@ and a localized VS Code experience are later work. See the
 | --- | --- |
 | `crates/permbridge-core/` | Canonical Rust model and adapter contract; future comparison logic |
 | `crates/permbridge-cli/` | Rust CLI smoke program; future user CLI |
-| `adapters/` | Home for future agent-specific implementations; none yet |
+| `crates/permbridge-codex/` | Experimental read-only Codex file adapter |
+| `adapters/` | Index for agent integrations |
 | `extensions/vscode/` | Future TypeScript extension placeholder |
 | `policies/examples/` | Draft, nonfunctional YAML policy examples |
 | `docs/` | Canonical English technical documentation |

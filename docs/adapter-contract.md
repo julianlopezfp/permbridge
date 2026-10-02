@@ -1,6 +1,6 @@
 # Agent adapter contract
 
-**Status: experimental contract; no real adapter is implemented.**
+**Status: experimental contract with one limited Codex implementation.**
 
 `AgentAdapter` exposes two operations: `id()` returns a stable integration
 identifier, and `inspect(&CanonicalPolicy)` returns an `EffectivePosture` or
@@ -13,6 +13,7 @@ An `EffectivePosture` maps canonical `Capability` keys to observations:
 | Observation | Meaning |
 | --- | --- |
 | `Known` | A native decision and its observed enforcement strength can be described. This does not imply equivalence to the desired rule. |
+| `NotConfigured` | Inspected sources contain no explicit setting for this capability; no default is inferred. |
 | `Unsupported` | The agent cannot express or expose the requested capability through this adapter. |
 | `Ambiguous` | Available native settings cannot be mapped with confidence. |
 | Missing key | The capability was not inspected; a future comparator must not assume compliance. |
@@ -30,8 +31,12 @@ Enforcement strength distinguishes a stored declaration, a tool or approval
 gate, and an OS sandbox boundary for a specific capability. It is descriptive
 evidence, not a universal ranking or proof that all actions are contained.
 Real adapters will need tests against native behavior and documented evidence
-limits before PermBridge claims support for an agent. The current test double
-exists only in Core unit tests.
+limits before PermBridge claims broad support for an agent. The Core test
+double remains separate from the experimental, read-only
+[Codex adapter](compatibility/codex.md). Its `inspect_report` method adds
+source provenance without changing the provider-agnostic trait. The only Core
+contract change is `NotConfigured`, needed to distinguish a checked but absent
+setting from a capability that was never inspected.
 
 The adapter contract describes agent capabilities, not rights to use
 PermBridge. A future third-party integration must respect the project's

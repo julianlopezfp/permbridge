@@ -24,6 +24,14 @@ surface, not a stable integration API. Keep Core independent of provider SDKs,
 UI strings, and file formats. Changes to the model should update Rustdoc,
 focused tests, and the relevant technical document together.
 
+`permbridge-codex` is a separate crate with a read-only file loader and a
+conservative mapping step. Its caller must provide the Codex home, optional
+workspace root, and project trust explicitly. The crate's integration tests
+use synthetic temporary roots; they never inspect the developer's real Codex
+files. `toml` parses configuration syntax, and the test-only `tempfile` crate
+keeps isolated fixtures easy to clean up. Run `cargo test -p permbridge-codex`
+for its focused suite. See [Codex compatibility](compatibility/codex.md).
+
 The [contribution guide](../CONTRIBUTING.md) defines language and review
 expectations. [Testing](testing.md) explains what the current checks prove.
 

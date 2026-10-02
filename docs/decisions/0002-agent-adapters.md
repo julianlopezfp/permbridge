@@ -16,8 +16,8 @@ could make native guarantees appear universal.
 Core defines a small `AgentAdapter` contract and shared observation types.
 Concrete agents will implement that boundary outside the domain model.
 Adapters identify themselves, inspect relevant native configuration, and
-report known, unsupported, or ambiguous observations. The future comparator,
-not the adapter, decides policy equivalence.
+report known, not configured, unsupported, or ambiguous observations. The
+future comparator, not the adapter, decides policy equivalence.
 
 ## Consequences
 
@@ -25,4 +25,7 @@ Core remains independent of provider SDKs and UI concerns. Each adapter must
 document evidence limits and be tested against native behavior before support
 is claimed. The separation adds an explicit mapping step, but it prevents an
 integration from silently promoting a partial observation into a security
-guarantee. No concrete adapter exists yet.
+guarantee. The Codex adapter uses `NotConfigured` when inspected files contain
+no explicit relevant setting. It does not infer a runtime default. The adapter
+exists as an inspection-only integration; its limits are documented in the
+[Codex compatibility guide](../compatibility/codex.md).

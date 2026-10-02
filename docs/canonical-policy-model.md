@@ -30,6 +30,11 @@ from the decision: a declared `Deny` is not evidence of the same boundary as an
 OS sandbox restriction. See [adapter contract](adapter-contract.md) and
 [security model](security-model.md).
 
+`NotConfigured` now records that an adapter inspected its supported sources
+but found no explicit setting. It does not imply the canonical policy's `Ask`
+default or any native default. The first use is the
+[Codex file adapter](compatibility/codex.md).
+
 The illustrative [global](../policies/examples/global.yaml) and
 [project](../policies/examples/project.yaml) YAML files show a possible
 serialization. They are not parsed, validated, or executable. The `targets`

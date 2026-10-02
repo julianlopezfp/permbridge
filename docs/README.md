@@ -7,6 +7,7 @@ This directory is the canonical English engineering reference. Start with
 | --- | --- |
 | [Canonical policy model](canonical-policy-model.md) | In-memory types, defaults, and unresolved policy semantics |
 | [Adapter contract](adapter-contract.md) | Inspection boundary and observation meanings |
+| [Agent compatibility](compatibility/README.md) | Implemented adapters and evidence limits |
 | [Security model](security-model.md) | Trust boundaries and limits of claims |
 | [Development](development.md) | Toolchain and local commands |
 | [Testing](testing.md) | Test strategy and validation status |

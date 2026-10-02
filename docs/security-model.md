@@ -2,15 +2,16 @@
 
 **Current protection: none.** PermBridge does not intercept agent actions,
 enforce permissions, import live configuration, or compare effective posture.
-The implemented model and adapter trait are preparatory APIs.
+The Codex adapter reads selected local files, but cannot verify a running
+session's sandbox, approvals, or managed constraints.
 
 ## Trust boundaries
 
 The future comparison starts with a developer's desired policy and an
 adapter's observations of a particular agent. An adapter may see only part of
 the native configuration or may be unable to prove how a setting behaves at
-runtime. `Unsupported`, `Ambiguous`, and missing observations must never be
-converted into a passing comparison. A `Known` observation records the
+runtime. `NotConfigured`, `Unsupported`, `Ambiguous`, and missing observations
+must never be converted into a passing comparison. A `Known` observation records the
 adapter's interpretation, but still needs evidence and comparison before any
 equivalence claim.
 
@@ -30,9 +31,10 @@ silently grant permission because a mapping or observation is absent.
 
 PermBridge is a compatibility and posture analysis layer, not a universal
 sandbox or generic AI-agent firewall. Mediation may be possible only where a
-specific agent supplies a reliable integration point. No Codex or Claude Code
-adapter, security guarantee, or operational recommendation is supported by
-this repository today.
+specific agent supplies a reliable integration point. The Codex adapter is
+inspection-only and its `Declared` observations are not proof of OS sandbox
+enforcement. No Claude Code adapter, security guarantee, or operational
+recommendation is supported today. See [Codex compatibility](compatibility/codex.md).
 
 The security limitations above are independent of permission to use the
 project. BSL permits non-production evaluation but does not make this
